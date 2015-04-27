@@ -1,0 +1,15 @@
+{
+  "name": "Focus",
+  "description": "Frontend dependencies for the Focus build system",
+  "version": "1.0.0",
+  "ignore": [
+    ".gitignore",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "dependencies": {
+    "concise": "~2.0.0",
+    "jquery": "~2.1.3"
+  }
+}

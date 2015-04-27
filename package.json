@@ -1,0 +1,18 @@
+{
+  "name": "Focus",
+  "version": "1.0.0",
+  "description": "The build system for Focus frontend development",
+  "author": "Alex Price <alex@rocketpod.co.uk>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ricemast/focus"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-autoprefixer": "^0.0.8",
+    "gulp-concat": "^2.3.4",
+    "gulp-load-plugins": "~0.5.3",
+    "gulp-sass": "^1.3.3",
+    "gulp-uglify": "~0.3.1"
+  }
+}

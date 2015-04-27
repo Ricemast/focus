@@ -1,0 +1,19 @@
+{% extends "focus/base.html" %}
+
+{% block body %}
+
+    <h1 class="giga">{{ todo.text }}</h1>
+
+    {% if next %}
+        <a class="btn bg-green"
+           href="{% url 'todos:focus' next.pk %}">
+            Done
+        </a>
+    {% else %}
+        <a class="btn bg-red"
+           href="{% url 'todos:index' %}">
+            You're done, go home
+        </a>
+    {% endif %}
+
+{% endblock %}

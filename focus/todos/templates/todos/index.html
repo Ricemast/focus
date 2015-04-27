@@ -1,0 +1,15 @@
+{% extends "focus/base.html" %}
+
+{% block body %}
+
+    <ul>
+        {% for todo in todos %}
+            <li>
+                <a href="{% url 'todos:focus' todo.pk %}">
+                    {{ todo.text }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

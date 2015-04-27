@@ -11,9 +11,9 @@
               type="image/x-icon"
               href="../../static/images/favicon.ico" />
 
+        {% load staticfiles %}
         <link rel="stylesheet" type="text/css" media="screen"
-              href="../../static/css/main.css" />
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+              href="{% static 'css/main.css' %}" />
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -24,11 +24,11 @@
         <![endif]-->
 
         <section class="container">
-            <h1 class="giga">Meditate</h1>
-            <a class="btn bg-green" href="5-min-journal.html">Done</a>
+            {% block body %}
+            {% endblock %}
         </section>
 
-        <script src="../../static/js/vendor.js"></script>
-        <script src="../../static/js/main.js"></script>
+        <script src="{% static 'js/vendor.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>

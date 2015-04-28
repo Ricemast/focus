@@ -6,6 +6,12 @@ html, body {
     background: $white;
 }
 
+a,
+a:hover,
+a:visited {
+    color: $dark-blue;
+}
+
 .-floatright {
     float: right;
 }

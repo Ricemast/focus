@@ -2,18 +2,32 @@
 
 {% block body %}
 
-    <h1 class="giga">{{ todo.text }}</h1>
+    <div class="focus">
+        {{ todo.text }}
+    </div>
 
     {% if next %}
-        <a class="btn bg-green"
+        <a class="button -floatright"
            href="{% url 'todos:focus' next.pk %}">
-            Done
-        </a>
-    {% else %}
-        <a class="btn bg-red"
-           href="{% url 'todos:index' %}">
-            You're done, go home
+            Complete
         </a>
     {% endif %}
+
+    {% if next %}
+        <a class="button -yellow -floatright"
+           href="{% url 'todos:focus' next.pk %}">
+            Skip
+        </a>
+    {% endif %}
+
+    <a class="button -orange -floatright"
+       href="{% url 'todos:index' %}">
+
+        {% if next %}
+            Home
+        {% else %}
+            Finished!
+        {% endif %}
+    </a>
 
 {% endblock %}

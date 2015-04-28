@@ -1,0 +1,41 @@
+//------------------------------------
+//  Button styles
+//------------------------------------
+
+a.button,
+.button {
+    background: $green;
+    color: $white;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+}
+
+.button:hover {
+    color: $white;
+    background: $green-hover;
+    text-decoration: none;
+}
+
+.button.-blue {
+    background: $blue;
+}
+
+.button.-blue:hover {
+    background: $blue-hover;
+}
+
+.button.-yellow {
+    background: $yellow;
+}
+
+.button.-yellow:hover {
+    background: $yellow-hover;
+}
+
+.button.-orange {
+    background: $orange;
+}
+
+.button.-orange:hover {
+    background: $orange-hover;
+}

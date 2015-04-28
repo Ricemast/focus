@@ -10,4 +10,9 @@ urlpatterns = [
         views.complete,
         name='complete',
     ),
+    url(
+        r'^reset/$',
+        views.reset,
+        name='reset',
+    ),
 ]

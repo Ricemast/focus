@@ -2,14 +2,21 @@
 
 {% block body %}
 
-    <ul>
-        {% for todo in todos %}
-            <li>
-                <a href="{% url 'todos:focus' todo.pk %}">
-                    {{ todo.text }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <h1>
+        Focus
+        <small>Click on a task to focus on it</small>
+    </h1>
+
+    {% for todo in todos %}
+        <a class="task"
+           href="{% url 'todos:focus' todo.pk %}">
+
+            <span class="priority">
+                {{ forloop.counter }}
+            </span>
+
+            {{ todo.text }}
+        </a>
+    {% endfor %}
 
 {% endblock %}

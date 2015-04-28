@@ -8,7 +8,7 @@
     </h1>
 
     {% for todo in todos %}
-        <a class="task"
+        <a class="task {% if todo.complete %}-complete{% endif %}"
            href="{% url 'todos:focus' todo.pk %}">
 
             <span class="priority">

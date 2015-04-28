@@ -2,32 +2,31 @@
 
 {% block body %}
 
-    <div class="focus">
+    <div class="focus {% if todo.complete %}-complete{% endif %}">
         {{ todo.text }}
     </div>
 
-    {% if next %}
+    {% if not todo.complete %}
         <a class="button -floatright"
-           href="{% url 'todos:focus' next.pk %}">
+           href="{% url 'todos:complete' todo.pk %}">
             Complete
         </a>
     {% endif %}
 
-    {% if next %}
+    {% if todo.next %}
         <a class="button -yellow -floatright"
-           href="{% url 'todos:focus' next.pk %}">
-            Skip
+           href="{% url 'todos:focus' todo.next.pk %}">
+            {% if todo.complete %}
+                Next
+            {% else %}
+                Skip
+            {% endif %}
         </a>
     {% endif %}
 
     <a class="button -orange -floatright"
        href="{% url 'todos:index' %}">
-
-        {% if next %}
-            Home
-        {% else %}
-            Finished!
-        {% endif %}
+        Home
     </a>
 
 {% endblock %}

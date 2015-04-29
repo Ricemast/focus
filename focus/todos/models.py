@@ -2,8 +2,14 @@ from django.db import models
 
 
 class Todo(models.Model):
-    text = models.CharField(max_length=200)
-    priority = models.IntegerField()
+    text = models.CharField(
+        default='New Todo',
+        max_length=200
+    )
+    priority = models.IntegerField(
+        null=True,
+        blank=True
+    )
     complete = models.BooleanField(default=False)
 
     @property
@@ -21,8 +27,12 @@ class Todo(models.Model):
         Override the default save to push objects with the same priority
         down.
         """
-        todo = Todo.objects.filter(priority=self.priority).first()
-        if todo:
-            todo.priority += 1
-            todo.save()
+        if self.priority:
+            todo = Todo.objects.filter(priority=self.priority).first()
+            if todo:
+                todo.priority += 1
+                todo.save()
+        else:
+            self.priority = Todo.objects.count() + 1
+
         super(Todo, self).save(*args, **kwargs)

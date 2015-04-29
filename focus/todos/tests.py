@@ -36,6 +36,74 @@ class TodoPropTests(TestCase):
         self.assertEqual(todo.next, todo2)
 
 
+class TodoMethodTests(TestCase):
+    def test_creating_a_todo_with_no_fields_creates_a_new_todo(self):
+        """
+        Creating a new todo without any fields should create a new todo with
+        the test 'New Todo'.
+        """
+        todo = Todo.objects.create()
+
+        self.assertEqual(todo.text, 'New Todo')
+
+    def test_creating_a_todo_with_all_the_fields(self):
+        """
+        Creating a new todo and provided all of the fields should work.
+        """
+        Todo.objects.create(
+            text='test',
+            priority=10,
+            complete=True
+        )
+
+        todo = Todo.objects.get(text='test')
+        self.assertEqual(todo.priority, 10)
+        self.assertEqual(todo.complete, True)
+
+    def test_creating_a_todo_with_only_the_required_fields(self):
+        """
+        Creating a new todo and providing only the required fields should work.
+        """
+        Todo.objects.create(
+            text='test'
+        )
+
+        count = Todo.objects.count()
+
+        todo = Todo.objects.get(text='test')
+        self.assertEqual(todo.priority, count)
+
+    def test_creating_todo_without_priority_adds_to_end_of_list(self):
+        """
+        Creating a new todo without assigning a priority should add it
+        to the end of the list.
+        """
+        todo = Todo.objects.create(text='test')
+        last = Todo.objects.all().last()
+        count = Todo.objects.count()
+
+        self.assertEqual(todo, last)
+        self.assertEqual(todo.priority, count)
+
+    def test_creating_todo_with_existing_priority_pushes_the_list(self):
+        """
+        When creating a todo with a priority that already exists, the objects
+        with a priority gte should be pushed down
+        """
+        old_priority1 = Todo.objects.create(
+            text='test',
+            priority=1
+        )
+
+        new_priority1 = Todo.objects.create(
+            text='new_priorty_one',
+            priority=1
+        )
+
+        self.assertEqual(Todo.objects.get(priority=1), new_priority1)
+        self.assertEqual(Todo.objects.get(priority=2), old_priority1)
+
+
 class TodoIndexViewTests(TestCase):
     def test_index_view_with_no_todos(self):
         """

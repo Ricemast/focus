@@ -130,3 +130,62 @@ class TodoIndexViewTests(TestCase):
         response = self.client.get(reverse('todos:index'))
         self.assertContains(response, todo.text)
         self.assertContains(response, todo2.text)
+
+    def test_index_view_clicking_on_a_todo(self):
+        """
+        Clicking on a todo in the view should direct you to the focus
+        view for that object.
+        """
+        todo = Todo.objects.create(text='test')
+        response = self.client.get(reverse('todos:focus', args=((todo.pk,))))
+
+        self.assertContains(response, todo.text)
+
+
+class TodoResetViewTests(TestCase):
+    def test_reset_view_makes_all_of_the_todos_complete_eq_false(self):
+        """
+        When navigating to the reset view, all todo objects should be
+        marked as incomplete.
+        """
+        Todo.objects.create(text='complete', complete=True)
+
+        self.assertEqual(
+            Todo.objects.filter(complete=True).count(),
+            1
+        )
+
+        self.client.get(reverse('todos:reset'))
+
+        self.assertEqual(
+            Todo.objects.filter(complete=True).count(),
+            0
+        )
+
+    def test_reset_view_redirects_to_index_view_with_todos(self):
+        """
+        After the reset view's logic has been completed, the client
+        should be redirected to the index view.
+        """
+        Todo.objects.create(text='complete', complete=True)
+
+        response = self.client.get(reverse('todos:reset'))
+
+        self.assertRedirects(
+            response,
+            reverse('todos:index')
+        )
+
+    def test_reset_view_redirects_to_index_view_without_todos(self):
+        """
+        If navigation to the reset view when there are no todo objects,
+        the client should be redirected to the index view without error.
+        """
+        self.assertEqual(Todo.objects.count(), 0)
+
+        response = self.client.get(reverse('todos:reset'))
+
+        self.assertRedirects(
+            response,
+            reverse('todos:index')
+        )

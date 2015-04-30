@@ -23,7 +23,9 @@
 
     <p class="float-right">
         {{ completed }} / {{ total }} |
-        <a href="">Reset</a>
+        <a href="{% url 'todos:reset' %}">
+            Reset
+        </a>
     </p>
 
 {% endblock %}

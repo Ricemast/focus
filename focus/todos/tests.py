@@ -4,24 +4,13 @@ from django.test import TestCase
 from todos.models import Todo
 
 
-def create_todo(todo_text="test"):
-    """
-    Creates a new todo with the lowest possible priority.
-    """
-    p = Todo.objects.count() + 1
-    return Todo.objects.create(
-        text=todo_text,
-        priority=p
-    )
-
-
 class TodoPropTests(TestCase):
     def test_next_prop_with_single_todo(self):
         """
         The next property on Todo should return None if it is the only (last)
         todo object.
         """
-        todo = create_todo()
+        todo = Todo.objects.create(text='test')
 
         self.assertIsNone(todo.next)
 
@@ -30,8 +19,8 @@ class TodoPropTests(TestCase):
         The next property on Todo should return the todo object with the next
         highest priority if there is one.
         """
-        todo = create_todo()
-        todo2 = create_todo('test2')
+        todo = Todo.objects.create(text='test')
+        todo2 = Todo.objects.create(text='test2')
 
         self.assertEqual(todo.next, todo2)
 
@@ -117,7 +106,7 @@ class TodoIndexViewTests(TestCase):
         """
         If there is a todo object, it should be displayed.
         """
-        todo = create_todo()
+        todo = Todo.objects.create(text='test')
         response = self.client.get(reverse('todos:index'))
         self.assertContains(response, todo.text)
 
@@ -125,13 +114,13 @@ class TodoIndexViewTests(TestCase):
         """
         If there is are multiple todo object, they should all be displayed.
         """
-        todo = create_todo()
-        todo2 = create_todo('todo2')
+        todo = Todo.objects.create(text='test')
+        todo2 = Todo.objects.create(text='test2')
         response = self.client.get(reverse('todos:index'))
         self.assertContains(response, todo.text)
         self.assertContains(response, todo2.text)
 
-    def test_index_view_clicking_on_a_todo(self):
+    def test_index_view_clicking_on_a_todo_takes_to_focus_view(self):
         """
         Clicking on a todo in the view should direct you to the focus
         view for that object.
@@ -140,6 +129,18 @@ class TodoIndexViewTests(TestCase):
         response = self.client.get(reverse('todos:focus', args=((todo.pk,))))
 
         self.assertContains(response, todo.text)
+
+    def test_index_view_completed_fraction(self):
+        """
+        The correct number of completed todos should be shown on the index
+        page.
+        """
+        Todo.objects.create(text='compelte', complete=True)
+        Todo.objects.create(text='incomplete')
+
+        response = self.client.get(reverse('todos:index'))
+
+        self.assertContains(response, '1 / 2')
 
 
 class TodoResetViewTests(TestCase):

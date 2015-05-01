@@ -143,6 +143,125 @@ class TodoIndexViewTests(TestCase):
         self.assertContains(response, '1 / 2')
 
 
+class TodoFocusViewTests(TestCase):
+    def test_focus_view_for_a_todo_shows_that_todos_text(self):
+        """
+        The correct text should be displayed on the screen when in the focus
+        view for a particular todo.
+        """
+        todo = Todo.objects.create(text='tester')
+
+        response = self.client.get(reverse('todos:focus', args=((todo.pk,))))
+
+        self.assertContains(response, todo.text)
+
+    def test_focus_view_buttons_if_last_task_incomplete(self):
+        """
+        If the task is the last (or only) in a list and it is not complete,
+        there should be a 'Home' button and a 'Complete' button.
+        """
+        todo = Todo.objects.create(text='test')
+
+        response = self.client.get(reverse('todos:focus', args=((todo.pk,))))
+
+        self.assertContains(response, 'Complete')
+        self.assertContains(response, 'Home')
+
+    def test_focus_view_buttons_if_last_task_complete(self):
+        """
+        If the task is the last (or only) in a list and it is complete,
+        there should only be a 'Home' button.
+        """
+        todo = Todo.objects.create(text='test', complete=True)
+
+        response = self.client.get(reverse('todos:focus', args=((todo.pk,))))
+
+        self.assertContains(response, 'Home')
+
+    def test_focus_view_buttons_if_not_last_task_incomplete(self):
+        """
+        If there are tasks to complete after the current task and the current
+        task is not complete, there should be a 'Home' button, a 'Skip' button
+        and a 'Complete' button.
+        """
+        todo = Todo.objects.create(text='test')
+        Todo.objects.create(text='test two')
+
+        response = self.client.get(reverse('todos:focus', args=((todo.pk,))))
+
+        self.assertContains(response, 'Complete')
+        self.assertContains(response, 'Skip')
+        self.assertContains(response, 'Home')
+
+    def test_focus_view_buttons_if_not_last_task_and_complete(self):
+        """
+        If there are tasks to complete after the current task and the current
+        task is complete, there should be a 'Home' button and a 'Next' button.
+        """
+        todo = Todo.objects.create(text='test', complete=True)
+        Todo.objects.create(text='test two')
+
+        response = self.client.get(reverse('todos:focus', args=((todo.pk,))))
+
+        self.assertContains(response, 'Next')
+        self.assertContains(response, 'Home')
+
+
+class TodoCompleteViewTests(TestCase):
+    def test_complete_view_makes_given_task_complete_eq_true(self):
+        """
+        When navigating to the complete view, the todo object should be
+        marked as complete.
+        """
+        todo = Todo.objects.create(text='incomplete')
+
+        self.assertEqual(
+            Todo.objects.filter(complete=True).count(),
+            0
+        )
+
+        self.client.get(reverse('todos:complete', args=((todo.pk,))))
+
+        self.assertEqual(
+            Todo.objects.filter(complete=True).count(),
+            1
+        )
+
+    def test_complete_view_redirects_to_focus_view_for_next_todo(self):
+        """
+        After the complete view's logic has been completed, the client
+        should be redirected to the focus view for the todo of the next highest
+        priority.
+        """
+        todo = Todo.objects.create(text='incomplete')
+        next_todo = Todo.objects.create(text='next highest priority')
+
+        response = self.client.get(
+            reverse('todos:complete', args=((todo.pk,)))
+        )
+
+        self.assertRedirects(
+            response,
+            reverse('todos:focus', args=((next_todo.pk,)))
+        )
+
+    def test_complete_view_redirects_to_index_view_if_last_todo(self):
+        """
+        If navigating to the complete view from the last todo in the list,
+        the client should be redirected to the index view.
+        """
+        todo = Todo.objects.create(text='incomplete')
+
+        response = self.client.get(
+            reverse('todos:complete', args=((todo.pk,)))
+        )
+
+        self.assertRedirects(
+            response,
+            reverse('todos:index')
+        )
+
+
 class TodoResetViewTests(TestCase):
     def test_reset_view_makes_all_of_the_todos_complete_eq_false(self):
         """

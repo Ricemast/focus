@@ -1,5 +1,7 @@
 {% extends "focus/base.html" %}
 
+{% block pageclass %}-index{% endblock %}
+
 {% block body %}
 
     <h1>
@@ -10,7 +12,7 @@
     {% csrf_token %}
 
     {% for todo in todos %}
-        <a class="task {% if todo.complete %}-complete{% endif %}"
+        <a class="task{% if todo.complete %} -complete{% endif %}"
            href="{% url 'todos:focus' todo.pk %}">
 
             <span class="priority">
@@ -19,7 +21,7 @@
 
             {{ todo.text }}
 
-            <span class="toggle"
+            <span class="checkbox js-toggle"
                data-href="{% url 'todos:toggle' todo.pk %}">
                 {% if todo.complete %}
                     <i class="fa fa-check-square"></i>
@@ -32,9 +34,12 @@
         <p>No tasks yet.</p>
     {% endfor %}
 
-    <p class="float-right">
-        {{ completed }} / {{ total }} |
-        <a href="{% url 'todos:reset' %}">
+    <p class="todolistfooter">
+        <span class="js-numcompleted">
+            {{ completed }}
+        </span> / {{ total }} |
+        <a class="js-reset"
+           href="{% url 'todos:reset' %}">
             Reset
         </a>
     </p>

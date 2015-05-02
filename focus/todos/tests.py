@@ -353,37 +353,25 @@ class TodoResetViewTests(TestCase):
             1
         )
 
-        self.client.get(reverse('todos:reset'))
+        self.client.post(reverse('todos:reset'))
 
         self.assertEqual(
             Todo.objects.filter(complete=True).count(),
             0
         )
 
-    def test_reset_view_redirects_to_index_view_with_todos(self):
+    def test_reset_view_returns_json_response(self):
         """
         After the reset view's logic has been completed, the client
-        should be redirected to the index view.
+        should be set a JSON
         """
-        Todo.objects.create(text='complete', complete=True)
+        Todo.objects.create(text='incomplete')
 
-        response = self.client.get(reverse('todos:reset'))
-
-        self.assertRedirects(
-            response,
-            reverse('todos:index')
+        response = self.client.post(
+            reverse('todos:reset')
         )
 
-    def test_reset_view_redirects_to_index_view_without_todos(self):
-        """
-        If navigation to the reset view when there are no todo objects,
-        the client should be redirected to the index view without error.
-        """
-        self.assertEqual(Todo.objects.count(), 0)
+        json_string = response.content
+        data = json.loads(json_string)
 
-        response = self.client.get(reverse('todos:reset'))
-
-        self.assertRedirects(
-            response,
-            reverse('todos:index')
-        )
+        self.assertTrue(data['reset'])

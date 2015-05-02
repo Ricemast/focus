@@ -17,7 +17,7 @@ urlpatterns = [
     ),
     url(
         r'^reset/$',
-        views.reset,
+        views.ResetAllTodosView.as_view(),
         name='reset',
     ),
 ]

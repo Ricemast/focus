@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views import generic
-from django.views.generic.detail import SingleObjectMixin
 
 from todos.models import Todo
 
@@ -26,7 +25,7 @@ class FocusView(generic.DetailView):
     template_name = 'todos/focus.html'
 
 
-class ToggleTodoStatusView(SingleObjectMixin, generic.View):
+class ToggleTodoStatusView(generic.detail.SingleObjectMixin, generic.View):
     """
     Swaps the status of a todo. If it is marked as complete, change it to
     incomplete. If marked as incomplete, change to complete.
@@ -38,10 +37,15 @@ class ToggleTodoStatusView(SingleObjectMixin, generic.View):
         self.object.complete = not self.object.complete
         self.object.save()
 
-        return JsonResponse({'complete': self.object.complete})
+        return JsonResponse(
+            {
+                'complete': self.object.complete,
+                'numcompleted': Todo.objects.filter(complete=True).count()
+            }
+        )
 
 
-class CompleteTodoView(SingleObjectMixin, generic.View):
+class CompleteTodoView(generic.detail.SingleObjectMixin, generic.View):
     """Redirect view to complete the task and move onto the next one"""
     model = Todo
 
@@ -58,10 +62,19 @@ class CompleteTodoView(SingleObjectMixin, generic.View):
         return HttpResponseRedirect(reverse('todos:index'))
 
 
-def reset(request):
+class ResetAllTodosView(generic.list.MultipleObjectMixin, generic.View):
     """Make all todos not complete"""
-    todos = Todo.objects.all()
-    for todo in todos:
-        todo.complete = False
-        todo.save()
-    return HttpResponseRedirect(reverse('todos:index'))
+    model = Todo
+
+    def post(self, request, *args, **kwargs):
+        self.queryset = self.get_queryset()
+        for todo in self.queryset:
+            todo.complete = False
+            todo.save()
+
+        return JsonResponse(
+            {
+                'reset': True,
+                'numcompleted': Todo.objects.filter(complete=True).count()
+            }
+        )

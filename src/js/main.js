@@ -1,9 +1,10 @@
 $(function() {
 
-    $('.task > .toggle').click(function() {
+    // Quick complete toggle handler
+    $('.js-toggle').click(function() {
 
-        var csrf = $('input[name="csrfmiddlewaretoken"]').val();
         var $this = $(this);
+        var csrf = $('input[name="csrfmiddlewaretoken"]').val();
 
         $.post(
             $this.data('href'),
@@ -21,6 +22,33 @@ $(function() {
                      .removeClass('fa-check-square');
             }
 
+            $('.js-numcompleted').text(data.numcompleted);
+        });
+
+        return false;
+    });
+
+    // Reset all todos handler
+    $('.js-reset').click(function() {
+
+        var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+
+        $.post(
+            $(this).attr('href'),
+            { csrfmiddlewaretoken: csrf }
+        ).done(function(data) {
+            if (data.reset) {
+                $('.task').each(function() {
+                    $(this).removeClass('-complete')
+                           .find('.checkbox > i')
+                           .removeClass('fa-check-square')
+                           .addClass('fa-square');
+                });
+            } else {
+                alert('Error with reseting todos');
+            }
+
+            $('.js-numcompleted').text(data.numcompleted);
         });
 
         return false;

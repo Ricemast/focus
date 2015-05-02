@@ -16,26 +16,26 @@ a.button,
     text-decoration: none;
 }
 
-.button.-blue {
-    background: $blue;
+.button.-home {
+    background: $red;
 }
 
-.button.-blue:hover {
-    background: $blue-hover;
+.button.-home:hover {
+    background: $red-hover;
 }
 
-.button.-yellow {
+.button.-next {
     background: $yellow;
 }
 
-.button.-yellow:hover {
+.button.-next:hover {
     background: $yellow-hover;
 }
 
-.button.-orange {
-    background: $orange;
+.button.-complete {
+    background: $green;
 }
 
-.button.-orange:hover {
-    background: $orange-hover;
+.button.-complete:hover {
+    background: $green-hover;
 }

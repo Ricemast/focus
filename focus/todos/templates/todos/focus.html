@@ -1,5 +1,7 @@
 {% extends "focus/base.html" %}
 
+{% block pageclass %}-focus{% endblock %}
+
 {% block body %}
 
     <div class="focus {% if todo.complete %}-complete{% endif %}">
@@ -7,14 +9,14 @@
     </div>
 
     {% if not todo.complete %}
-        <a class="button -floatright"
+        <a class="button -complete"
            href="{% url 'todos:complete' todo.pk %}">
             Complete
         </a>
     {% endif %}
 
     {% if todo.next %}
-        <a class="button -yellow -floatright"
+        <a class="button -next"
            href="{% url 'todos:focus' todo.next.pk %}">
             {% if todo.complete %}
                 Next
@@ -24,7 +26,7 @@
         </a>
     {% endif %}
 
-    <a class="button -orange -floatright"
+    <a class="button -home"
        href="{% url 'todos:index' %}">
         Home
     </a>

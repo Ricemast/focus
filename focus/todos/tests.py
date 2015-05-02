@@ -68,7 +68,7 @@ class TodoMethodTests(TestCase):
         to the end of the list.
         """
         todo = Todo.objects.create(text='test')
-        last = Todo.objects.all().last()
+        last = Todo.objects.last()
         count = Todo.objects.count()
 
         self.assertEqual(todo, last)
@@ -91,6 +91,17 @@ class TodoMethodTests(TestCase):
 
         self.assertEqual(Todo.objects.get(priority=1), new_priority1)
         self.assertEqual(Todo.objects.get(priority=2), old_priority1)
+
+    def test_create_a_todo_with_no_priority_and_gaps_in_priorities(self):
+        """
+        Bug #8: A todo will be created with the priority eq to the lowest
+        available priority. This should not be the case. It should be created
+        with priority higher than all other todos. i.e. the end of the list.
+        """
+        Todo.objects.create(text='test', priority=2)
+        todo = Todo.objects.create(text='priority3')
+
+        self.assertEqual(todo.priority, 3)
 
 
 class TodoIndexViewTests(TestCase):

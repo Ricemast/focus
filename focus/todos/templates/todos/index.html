@@ -22,9 +22,9 @@
             <span class="toggle"
                data-href="{% url 'todos:toggle' todo.pk %}">
                 {% if todo.complete %}
-                    &#x2714;
+                    <i class="fa fa-check-square"></i>
                 {% else %}
-                    &#x2718;
+                    <i class="fa fa-square"></i>
                 {% endif %}
             </span>
         </a>

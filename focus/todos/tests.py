@@ -1,3 +1,5 @@
+import json
+
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -216,6 +218,71 @@ class TodoFocusViewTests(TestCase):
 
         self.assertContains(response, 'Next')
         self.assertContains(response, 'Home')
+
+
+class TodoToggleStatusViewTests(TestCase):
+    def test_toggle_view_makes_an_incomplete_task_complete(self):
+        """
+        When navigating to the toggle view, an incomplete todo object should be
+        marked as complete.
+        """
+        todo = Todo.objects.create(text='incomplete')
+
+        self.assertEqual(
+            Todo.objects.filter(complete=False).count(),
+            1
+        )
+
+        self.client.post(reverse('todos:toggle', args=((todo.pk,))))
+
+        self.assertEqual(
+            Todo.objects.filter(complete=True).count(),
+            1
+        )
+
+    def test_toggle_view_makes_an_complete_task_incomplete(self):
+        """
+        When navigating to the toggle view, an complete todo object should be
+        marked as incomplete.
+        """
+        todo = Todo.objects.create(text='complete', complete=True)
+
+        self.assertEqual(
+            Todo.objects.filter(complete=True).count(),
+            1
+        )
+
+        self.client.post(reverse('todos:toggle', args=((todo.pk,))))
+
+        self.assertEqual(
+            Todo.objects.filter(complete=False).count(),
+            1
+        )
+
+    def test_toggle_view_returns_the_correct_json_response(self):
+        """
+        Using the toggle view should return a json response with the correct
+        data.
+        """
+        todo = Todo.objects.create(text='incomplete')
+
+        response = self.client.post(
+            reverse('todos:toggle', args=((todo.pk,)))
+        )
+
+        json_string = response.content
+        data = json.loads(json_string)
+
+        self.assertTrue(data['complete'])
+
+        response = self.client.post(
+            reverse('todos:toggle', args=((todo.pk,)))
+        )
+
+        json_string = response.content
+        data = json.loads(json_string)
+
+        self.assertFalse(data['complete'])
 
 
 class TodoCompleteViewTests(TestCase):

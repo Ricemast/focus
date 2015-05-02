@@ -7,6 +7,8 @@
         <small>Click on a task to focus on it</small>
     </h1>
 
+    {% csrf_token %}
+
     {% for todo in todos %}
         <a class="task {% if todo.complete %}-complete{% endif %}"
            href="{% url 'todos:focus' todo.pk %}">
@@ -16,6 +18,15 @@
             </span>
 
             {{ todo.text }}
+
+            <span class="toggle"
+               data-href="{% url 'todos:toggle' todo.pk %}">
+                {% if todo.complete %}
+                    &#x2714;
+                {% else %}
+                    &#x2718;
+                {% endif %}
+            </span>
         </a>
     {% empty %}
         <p>No tasks yet.</p>

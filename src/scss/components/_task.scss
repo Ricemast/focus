@@ -1,0 +1,35 @@
+//------------------------------------
+//  Task styles
+//------------------------------------
+
+a.task {
+    background: $dark-blue;
+    color: $white;
+    display: block;
+
+    &:hover {
+        color: $white;
+        background: $dark-blue-hover;
+        text-decoration: none;
+    }
+}
+
+a.task > .priority {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    color: $white;
+    border-right: 1px solid $dark-blue-hover;
+}
+
+a.task.-complete {
+    background: $green;
+
+    &:hover {
+        background: $green-hover;
+    }
+}
+
+a.task.-complete > .priority {
+    border-right: 1px solid $green-hover;
+}

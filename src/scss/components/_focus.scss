@@ -1,0 +1,15 @@
+//------------------------------------
+//  Focus styles
+//------------------------------------
+
+.focus {
+    background: $dark-blue;
+    color: $white;
+    font-size: 4rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.focus.-complete {
+    background: $green;
+}

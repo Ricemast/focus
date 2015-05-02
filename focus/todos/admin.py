@@ -4,8 +4,8 @@ from todos.models import Todo
 
 
 class TodoAdmin(admin.ModelAdmin):
-    fields = ['text', 'priority']
-    list_display = ('text', 'priority')
+    fields = ['text', 'priority', 'complete']
+    list_display = ('text', 'priority', 'complete')
     ordering = ('priority',)
 
 admin.site.register(Todo, TodoAdmin)

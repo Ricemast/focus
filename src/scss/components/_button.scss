@@ -1,0 +1,41 @@
+//------------------------------------
+//  Button styles
+//------------------------------------
+
+a.button,
+.button {
+    background: $green;
+    color: $white;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+}
+
+.button:hover {
+    color: $white;
+    background: $green-hover;
+    text-decoration: none;
+}
+
+.button.-home {
+    background: $red;
+}
+
+.button.-home:hover {
+    background: $red-hover;
+}
+
+.button.-next {
+    background: $yellow;
+}
+
+.button.-next:hover {
+    background: $yellow-hover;
+}
+
+.button.-complete {
+    background: $green;
+}
+
+.button.-complete:hover {
+    background: $green-hover;
+}

@@ -1,19 +1,34 @@
 {% extends "focus/base.html" %}
 
+{% block pageclass %}-focus{% endblock %}
+
 {% block body %}
 
-    <h1 class="giga">{{ todo.text }}</h1>
+    <div class="focus {% if todo.complete %}-complete{% endif %}">
+        {{ todo.text }}
+    </div>
 
-    {% if next %}
-        <a class="btn bg-green"
-           href="{% url 'todos:focus' next.pk %}">
-            Done
-        </a>
-    {% else %}
-        <a class="btn bg-red"
-           href="{% url 'todos:index' %}">
-            You're done, go home
+    {% if not todo.complete %}
+        <a class="button -complete"
+           href="{% url 'todos:complete' todo.pk %}">
+            Complete
         </a>
     {% endif %}
+
+    {% if todo.next %}
+        <a class="button -next"
+           href="{% url 'todos:focus' todo.next.pk %}">
+            {% if todo.complete %}
+                Next
+            {% else %}
+                Skip
+            {% endif %}
+        </a>
+    {% endif %}
+
+    <a class="button -home"
+       href="{% url 'todos:index' %}">
+        Home
+    </a>
 
 {% endblock %}

@@ -11,10 +11,14 @@ $(function() {
         ).done(function(data) {
             if (data.complete) {
                 $this.parent().addClass('-complete');
-                $this.html('\u2714');
+                $this.find('i')
+                     .addClass('fa-check-square')
+                     .removeClass('fa-square');
             } else {
                 $this.parent().removeClass('-complete');
-                $this.html('\u2718');
+                $this.find('i')
+                     .addClass('fa-square')
+                     .removeClass('fa-check-square');
             }
 
         });

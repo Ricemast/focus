@@ -70,11 +70,30 @@ gulp.task('vendor:js', function () {
     .pipe(gulp.dest('static/js'));
 });
 
+// Vendor CSS - Add files manually
+gulp.task('vendor:css', function () {
+  return gulp.src([
+      'bower_components/fontawesome/css/font-awesome.min.css'
+  ])
+    .pipe($.concat('vendor.css'))
+    .pipe(gulp.dest('static/css'));
+});
+
+// Vendor fonts - Add files manually
+gulp.task('vendor:fonts', function () {
+  return gulp.src([
+      'bower_components/fontawesome/fonts/*'
+  ])
+    .pipe(gulp.dest('static/fonts'));
+});
+
 gulp.task('static', [
     'static:css',
     'static:js',
     'static:images',
-    'vendor:js'
+    'vendor:css',
+    'vendor:js',
+    'vendor:fonts'
 ]);
 
 /**

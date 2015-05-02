@@ -33,6 +33,9 @@ class Todo(models.Model):
                 todo.priority += 1
                 todo.save()
         else:
-            self.priority = Todo.objects.count() + 1
+            if Todo.objects.count() > 0:
+                self.priority = Todo.objects.last().priority + 1
+            else:
+                self.priority = 1
 
         super(Todo, self).save(*args, **kwargs)

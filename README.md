@@ -7,19 +7,15 @@ a fully featured, modular, type based productivity multitool.
 
 ## Installation
 
-**Focus** is a simple django application configured to run on SQLite3.
+**Focus** is a simple django application configured to run on mysql (you may
+need to change the db settings in `focus/focus/settings.py`).
 
-Simply clone this repository, `cd` to the `focus` django application directory
-and setup the DB using:
+To get up and running simply clone this repository, `cd` to the `focus` django
+application directory and setup the DB using:
 
 `./manage.py syncdb`
 
 `./manage.py migrate`
-
-Then create an admin account so you can login to the django admin panel
-(`/admin`)
-
-`./manage.py createsuperuser`
 
 The development tools are managed through [npm](https://www.npmjs.com/).
 
@@ -65,13 +61,13 @@ TODO: Write usage instructions
 
 ## Credits
 
-Alex Price ([@ricemast](https://twitter.com/ricemast))
+**Focus** was created by Alex Price ([@ricemast](https://twitter.com/ricemast))
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Alex Price
+Copyright (c) 2015 Focus
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

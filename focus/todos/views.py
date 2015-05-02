@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect, JsonResponse
 from django.views import generic
+from django.views.generic.detail import SingleObjectMixin
 
 from todos.models import Todo
 
@@ -26,16 +26,36 @@ class FocusView(generic.DetailView):
     template_name = 'todos/focus.html'
 
 
-def complete(request, pk):
+class ToggleTodoStatusView(SingleObjectMixin, generic.View):
+    """
+    Swaps the status of a todo. If it is marked as complete, change it to
+    incomplete. If marked as incomplete, change to complete.
+    """
+    model = Todo
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.complete = not self.object.complete
+        self.object.save()
+
+        return JsonResponse({'complete': self.object.complete})
+
+
+class CompleteTodoView(SingleObjectMixin, generic.View):
     """Redirect view to complete the task and move onto the next one"""
-    todo = get_object_or_404(Todo, pk=pk)
-    todo.complete = True
-    todo.save()
-    if todo.next:
-        return HttpResponseRedirect(
-            reverse('todos:focus', args=(todo.next.pk,))
-        )
-    return HttpResponseRedirect(reverse('todos:index'))
+    model = Todo
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.complete = True
+        self.object.save()
+
+        if self.object.next:
+            return HttpResponseRedirect(
+                reverse('todos:focus', args=(self.object.next.pk,))
+            )
+
+        return HttpResponseRedirect(reverse('todos:index'))
 
 
 def reset(request):

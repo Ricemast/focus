@@ -1,51 +1,92 @@
-# RocketPod base frontend package
+# Focus
 
-This is the basic setup for all frontend work at RocketPod. This is a bare-bones
-build system and each project will likely need its own amendments and additions.
+**Focus** is a tool to help you get things done.
 
-Currently built on top of the [Concise framework](http://concisecss.com/documentation/layout/container/)
+Currently it is a simple, opinionated task list. Soon **Focus** will be
+a fully featured, modular, type based productivity multitool.
 
-## Quick start
+## Installation
 
-Clone the repository:
+**Focus** is a simple django application configured to run on SQLite3.
 
-`git clone git@bitbucket.org:rocketpod/rocketpod-foundation.git`
+Simply clone this repository, `cd` to the `focus` django application directory
+and setup the DB using:
 
-Install development dependencies:
+`./manage.py syncdb`
 
-`npm install`
+`./manage.py migrate`
 
-Install frontend dependencies:
+Then create an admin account so you can login to the django admin panel
+(`/admin`)
 
-`bower install`
+`./manage.py createsuperuser`
 
-Build the static files
+The development tools are managed through [npm](https://www.npmjs.com/).
 
-`gulp`
+Install the *npm* packages with `npm install`
 
-Start watching for changed to SCSS and JS:
+Frontend dependencies are managed with [bower](http://bower.io/).
 
-`gulp watch`
+Install the *bower* packages with `bower install`
 
-This session needs to stay open to process the SCSS & JS files.
+The static assests are built using [gulp](http://gulpjs.com/).
+
+Build the assests with `gulp`
+
+Build and watch the assests with `gulp watch`
 
 ### Development
 
-**Javascript** development is vanilla at the moment. Might move to something
+*Javascript* development is vanilla at the moment. Might move to something
 else soon.
 
-**CSS** development is using SCSS. Style files should be modularised where
-necessary/sensible.
+*CSS* development is using SCSS. Style files should be modularised where
+necessary/sensible. I'm not following any particular style guide at the moment.
+I might migrate the code to something while the codebase is small.
 
-To do this, create an underscore (`_`) prefixed file, and
-import it in the `main.scss` file. SCSS imports are ordered, so base styles
-should be at the top.
+[Concise](http://concisecss.com/documentation/) modules are imported in
+`src/scss/_framework.scss` as needed.
 
-**Concise** modules are imported via `src/scss/_framework.scss` as needed.
+## Usage
 
-### Extending the build system
+TODO: Write usage instructions
 
-The build system uses [gulp](http://gulpjs.com/) to run tasks. You can see the
-functions which make up the workflow in `Gulpfile.js`.
-You can add/remove/modify these in your project.
+## Contributing
 
+1. Fork it!
+2. Create your feature branch: `git checkout -b feature/my-new-feature`
+3. Commit your changes: `git commit -am 'Added some feature'`
+4. Push to the branch: `git push origin feature/my-new-feature`
+5. Submit a pull request :D
+
+## History
+
+- **Version 0.1**: Basic sequential todo list. Tests and readme written.
+
+## Credits
+
+Alex Price ([@ricemast](https://twitter.com/ricemast))
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Alex Price
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

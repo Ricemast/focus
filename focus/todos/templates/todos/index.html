@@ -13,6 +13,7 @@
 
     {% for todo in todos %}
         <a class="task{% if todo.complete %} -complete{% endif %}"
+           id="todo{{ todo.pk }}"
            href="{% url 'todos:focus' todo.pk %}">
 
             <span class="priority">

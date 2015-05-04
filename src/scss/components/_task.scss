@@ -23,6 +23,8 @@ a.task > .priority {
     margin-right: 1rem;
     color: $white;
     border-right: 1px solid $dark-blue-hover;
+    width: 3rem;
+    text-align: center;
 }
 
 a.task.-complete {

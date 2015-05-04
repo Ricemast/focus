@@ -39,6 +39,7 @@ class ToggleTodoStatusView(generic.detail.SingleObjectMixin, generic.View):
 
         return JsonResponse(
             {
+                'pk': self.object.pk,
                 'complete': self.object.complete,
                 'numcompleted': Todo.objects.filter(complete=True).count()
             }

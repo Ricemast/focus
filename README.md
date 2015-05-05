@@ -8,7 +8,7 @@ a fully featured, modular, type based productivity multitool.
 ## Installation
 
 **Focus** is a simple django application configured to run on mysql (you may
-need to change the db settings in `focus/focus/settings.py`).
+need to change the db settings in `focus/settings.py`).
 
 To get up and running simply clone this repository, `cd` to the `focus` django
 application directory and setup the DB using:

@@ -1,8 +1,8 @@
 # Focus
 
-**Focus** is a tool to help you get things done.
+**Focus** is a personal project to help me get things done.
 
-Currently it is a simple, opinionated task list. Soon **Focus** will be
+Currently it is a simple, opinionated todo list. Soon **Focus** will be
 a fully featured, modular, type based productivity multitool.
 
 ## Installation
@@ -10,8 +10,7 @@ a fully featured, modular, type based productivity multitool.
 **Focus** is a simple django application configured to run on mysql (you may
 need to change the db settings in `focus/settings.py`).
 
-To get up and running simply clone this repository, `cd` to the `focus` django
-application directory and setup the DB using:
+To get up and running simply clone this repository, and setup the DB using:
 
 `./manage.py syncdb`
 

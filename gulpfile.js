@@ -36,10 +36,10 @@ var AUTOPREFIXER_BROWSERS = [
 
 // CSS
 gulp.task('static:css', function () {
-  return gulp.src('src/scss/main.scss')
+  return gulp.src('frontend/scss/main.scss')
     .pipe($.sass({
       outputStyle: 'compressed',
-      loadPath: ['src/scss']
+      loadPath: ['frontend/scss']
     }))
     .on('error', function (e) { console.error(e.message); })
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
@@ -48,7 +48,7 @@ gulp.task('static:css', function () {
 
 // JS
 gulp.task('static:js', function () {
-  return gulp.src('src/js/*.js')
+  return gulp.src('frontend/js/*.js')
     .pipe($.concat('main.js'))
     .pipe($.uglify())
     .pipe(gulp.dest('static/js'));
@@ -56,7 +56,7 @@ gulp.task('static:js', function () {
 
 // Images
 gulp.task('static:images', function () {
-  return gulp.src('src/images/*')
+  return gulp.src('frontend/images/*')
     .pipe(gulp.dest('static/images'));
 });
 
@@ -101,8 +101,8 @@ gulp.task('static', [
  */
 
 gulp.task('watch', ['static'], function () {
-  gulp.watch('src/scss/**/*.scss', ['static:css']);
-  gulp.watch('src/js/**/*.js', ['static:js']);
+  gulp.watch('frontend/scss/**/*.scss', ['static:css']);
+  gulp.watch('frontend/js/**/*.js', ['static:js']);
 });
 
 /**

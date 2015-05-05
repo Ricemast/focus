@@ -41,7 +41,7 @@ necessary/sensible. I'm not following any particular style guide at the moment.
 I might migrate the code to something while the codebase is small.
 
 [Concise](http://concisecss.com/documentation/) modules are imported in
-`src/scss/_framework.scss` as needed.
+`frontend/scss/_framework.scss` as needed.
 
 ## Usage
 

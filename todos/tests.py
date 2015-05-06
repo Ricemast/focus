@@ -76,24 +76,6 @@ class TodoMethodTests(TestCase):
         self.assertEqual(todo, last)
         self.assertEqual(todo.priority, count)
 
-    def test_creating_todo_with_existing_priority_pushes_the_list(self):
-        """
-        When creating a todo with a priority that already exists, the objects
-        with a priority gte should be pushed down
-        """
-        old_priority1 = Todo.objects.create(
-            text='test',
-            priority=1
-        )
-
-        new_priority1 = Todo.objects.create(
-            text='new_priorty_one',
-            priority=1
-        )
-
-        self.assertEqual(Todo.objects.get(priority=1), new_priority1)
-        self.assertEqual(Todo.objects.get(priority=2), old_priority1)
-
     def test_create_a_todo_with_no_priority_and_gaps_in_priorities(self):
         """
         Bug #8: A todo will be created with the priority eq to the lowest
@@ -397,8 +379,8 @@ class TodoReorderViewTests(TestCase):
         self.client.post(
             reverse('todos:reorder'),
             {
-                str(second.pk): 1,
-                str(first.pk): 2
+                second.pk: 1,
+                first.pk: 2
             }
         )
 
@@ -416,8 +398,9 @@ class TodoReorderViewTests(TestCase):
         response = self.client.post(
             reverse('todos:reorder'),
             {
-                str(second.pk): 1,
-                str(first.pk): 2
+                second.pk: 1,
+                first.pk: 2,
+                'csrfmiddlewaretoken': "0U62KNZSdUuLTpvzX9Q35ItBMhv9W2sG"
             }
         )
 

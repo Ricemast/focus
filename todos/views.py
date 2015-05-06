@@ -85,9 +85,10 @@ class ReorderTodosView(generic.View):
     """Reorder the todo objects according to changes envoked in UI."""
 
     def post(self, request, *args, **kwargs):
-        for pk in request.POST:
-            todo = Todo.objects.get(pk=pk)
-            todo.priority = request.POST.get(pk)
-            todo.save()
+        for key, value in request.POST.iteritems():
+            if key != 'csrfmiddlewaretoken':
+                todo = Todo.objects.get(pk=key)
+                todo.priority = value
+                todo.save()
 
         return JsonResponse({'reordered': True})

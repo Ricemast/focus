@@ -27,12 +27,7 @@ class Todo(models.Model):
         Override the default save to push objects with the same priority
         down.
         """
-        if self.priority:
-            todo = Todo.objects.filter(priority=self.priority).first()
-            if todo:
-                todo.priority += 1
-                todo.save()
-        else:
+        if not self.priority:
             if Todo.objects.count() > 0:
                 self.priority = Todo.objects.last().priority + 1
             else:

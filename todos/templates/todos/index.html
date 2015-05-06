@@ -11,29 +11,31 @@
 
     {% csrf_token %}
 
-    {% for todo in todos %}
-        <a class="task{% if todo.complete %} -complete{% endif %}"
-           id="todo{{ todo.pk }}"
-           href="{% url 'todos:focus' todo.pk %}">
+    <div class="tasks">
+        {% for todo in todos %}
+            <a class="task{% if todo.complete %} -complete{% endif %}"
+               id="todo{{ todo.pk }}"
+               href="{% url 'todos:focus' todo.pk %}">
 
-            <span class="priority">
-                {{ forloop.counter }}
-            </span>
+                <span class="priority">
+                    {{ forloop.counter }}
+                </span>
 
-            {{ todo.text }}
+                {{ todo.text }}
 
-            <span class="checkbox js-toggle"
-               data-href="{% url 'todos:toggle' todo.pk %}">
-                {% if todo.complete %}
-                    <i class="fa fa-check-square"></i>
-                {% else %}
-                    <i class="fa fa-square"></i>
-                {% endif %}
-            </span>
-        </a>
-    {% empty %}
-        <p>No tasks yet.</p>
-    {% endfor %}
+                <span class="checkbox js-toggle"
+                   data-href="{% url 'todos:toggle' todo.pk %}">
+                    {% if todo.complete %}
+                        <i class="fa fa-check-square"></i>
+                    {% else %}
+                        <i class="fa fa-square"></i>
+                    {% endif %}
+                </span>
+            </a>
+        {% empty %}
+            <p>No tasks yet.</p>
+        {% endfor %}
+    </div>
 
     <p class="todolistfooter">
         <span class="js-numcompleted">

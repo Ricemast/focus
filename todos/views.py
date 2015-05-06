@@ -79,3 +79,15 @@ class ResetAllTodosView(generic.list.MultipleObjectMixin, generic.View):
                 'numcompleted': Todo.objects.filter(complete=True).count()
             }
         )
+
+
+class ReorderTodosView(generic.View):
+    """Reorder the todo objects according to changes envoked in UI."""
+
+    def post(self, request, *args, **kwargs):
+        for pk in request.POST:
+            todo = Todo.objects.get(pk=pk)
+            todo.priority = request.POST.get(pk)
+            todo.save()
+
+        return JsonResponse({'reordered': True})

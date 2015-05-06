@@ -153,7 +153,8 @@ class TodoIndexViewTests(TestCase):
 
         response = self.client.get(reverse('todos:index'))
 
-        self.assertContains(response, '1 / 2')
+        self.assertContains(response, '1')
+        self.assertContains(response, '/ 2')
 
 
 class TodoFocusViewTests(TestCase):
@@ -363,7 +364,7 @@ class TodoResetViewTests(TestCase):
     def test_reset_view_returns_json_response(self):
         """
         After the reset view's logic has been completed, the client
-        should be set a JSON
+        should be sent a JSON response
         """
         Todo.objects.create(text='incomplete')
 
@@ -375,3 +376,52 @@ class TodoResetViewTests(TestCase):
         data = json.loads(json_string)
 
         self.assertTrue(data['reset'])
+
+
+class TodoReorderViewTests(TestCase):
+    def test_reorder_view_correctly_sets_new_order(self):
+        """
+        Submitting `todos` post data to the reorder view should
+        set the priorities of each of the todos to mirror what
+        was set in the DOM.
+        """
+        first = Todo.objects.create(
+            text='first',
+            priority=1
+        )
+        second = Todo.objects.create(
+            text='second',
+            priority=2
+        )
+
+        self.client.post(
+            reverse('todos:reorder'),
+            {
+                str(second.pk): 1,
+                str(first.pk): 2
+            }
+        )
+
+        self.assertEqual(Todo.objects.get(priority=1).pk, second.pk)
+        self.assertEqual(Todo.objects.get(priority=2).pk, first.pk)
+
+    def test_reorder_view_returns_json_response(self):
+        """
+        After the reorder view's logic has been completed, the client
+        should be sent a JSON response
+        """
+        first = Todo.objects.create(text='first')
+        second = Todo.objects.create(text='second')
+
+        response = self.client.post(
+            reverse('todos:reorder'),
+            {
+                str(second.pk): 1,
+                str(first.pk): 2
+            }
+        )
+
+        json_string = response.content
+        data = json.loads(json_string)
+
+        self.assertTrue(data['reordered'])

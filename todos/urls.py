@@ -20,4 +20,9 @@ urlpatterns = [
         views.ResetAllTodosView.as_view(),
         name='reset',
     ),
+    url(
+        r'^reorder/$',
+        views.ReorderTodosView.as_view(),
+        name='reorder',
+    ),
 ]

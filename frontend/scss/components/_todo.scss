@@ -1,27 +1,40 @@
 //------------------------------------
-//  Task styles
+//  Todo styles
 //------------------------------------
 
-a.task {
+.todo {
     background: $dark-blue;
-    color: $white;
     display: block;
     position: relative;
-    outline: 0;
     transition: all .1s ease-in-out;
 
+    &.-dragging {
+        transform: scale(1.01);
+    }
+
+    &.-complete {
+        background: $green;
+
+        &:hover {
+            background: $green-hover;
+        }
+    }
+
+    &.-complete > .priority {
+        border-right: 1px solid $green-hover;
+    }
+
     &:hover {
-        color: $white;
         background: $dark-blue-hover;
-        text-decoration: none;
     }
 }
 
-a.task.-dragging {
-    transform: scale(1.01);
+.todo > .focuslink {
+    color: $white;
+    outline: 0;
 }
 
-a.task > .priority {
+.todo > .priority {
     display: inline-block;
     padding: 0.5rem 1rem;
     margin-right: 1rem;
@@ -31,19 +44,7 @@ a.task > .priority {
     text-align: center;
 }
 
-a.task.-complete {
-    background: $green;
-
-    &:hover {
-        background: $green-hover;
-    }
-}
-
-a.task.-complete > .priority {
-    border-right: 1px solid $green-hover;
-}
-
-a.task > .checkbox {
+.todo > .checkbox {
     display: block;
     padding: 0.5rem 0;
     width: 2.2rem;
@@ -51,6 +52,7 @@ a.task > .checkbox {
     text-align: center;
     float: right;
     background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
     transition: all .1s ease-in-out;
 
     &:hover {

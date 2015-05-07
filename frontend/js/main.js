@@ -51,7 +51,7 @@ $(function() {
     // Helper function for reseting the UI for all of the todo elements.
     function resetTodos(response) {
         if (response.reset) {
-            $('.task').each(function() {
+            $('.todo').each(function() {
                 $(this).removeClass('-complete')
                        .find('.checkbox > i')
                        .removeClass('fa-check-square')
@@ -70,11 +70,11 @@ $(function() {
         $('.js-numcompleted').text(number);
     }
 
-    // Helper function for updating the UI for the number of completed
-    // items on the index page.
-    function temp(response) {
+    // Sorting complete callback. Ittereates the todos and re-numbers
+    // them.
+    function finishedSorting(response) {
         if (response.reordered) {
-            $('.task').each(function(i) {
+            $('.todo').each(function(i) {
                 $(this).find('.priority').text(i + 1);
             });
         } else {
@@ -89,20 +89,20 @@ $(function() {
     });
 
     // Reset all todos handler
-    $('.js-reset').click(function(e) {
+    $('#js-reset').click(function(e) {
         e.preventDefault();
         ajaxSubmit($(this).attr('href'), resetTodos);
     });
 
-    $(".tasks").sortable({
+    $("#js-todos").sortable({
         ghostClass: '-dragging',
         onEnd: function () {
             var data = {};
-            $('.task').each(function(i) {
+            $('.todo').each(function(i) {
                 var id = $(this).attr('id').split('todo')[1];
                 data[id] = i + 1;
             });
-            ajaxSubmit('/reorder/', temp, data);
+            ajaxSubmit('/reorder/', finishedSorting, data);
         },
     });
 

@@ -6,22 +6,24 @@
 
     <h1>
         Focus
-        <small>Click on a task to focus on it</small>
+        <small>Click on a todo to focus on it</small>
     </h1>
 
     {% csrf_token %}
 
-    <div class="tasks">
+    <ul class="todos" id="js-todos">
         {% for todo in todos %}
-            <a class="task{% if todo.complete %} -complete{% endif %}"
-               id="todo{{ todo.pk }}"
-               href="{% url 'todos:focus' todo.pk %}">
+            <li class="todo{% if todo.complete %} -complete{% endif %}"
+                id="todo{{ todo.pk }}">
 
                 <span class="priority">
                     {{ forloop.counter }}
                 </span>
 
-                {{ todo.text }}
+                <a class="focuslink"
+                   href="{% url 'todos:focus' todo.pk %}">
+                    {{ todo.text }}
+                </a>
 
                 <span class="checkbox js-toggle"
                    data-href="{% url 'todos:toggle' todo.pk %}">
@@ -31,17 +33,19 @@
                         <i class="fa fa-square"></i>
                     {% endif %}
                 </span>
-            </a>
+            </li>
         {% empty %}
-            <p>No tasks yet.</p>
+            <li>
+                <p>No todos yet.</p>
+            </li>
         {% endfor %}
-    </div>
+    </ul>
 
     <p class="todolistfooter">
         <span class="js-numcompleted">
             {{ completed }}
         </span> / {{ total }} |
-        <a class="resetlink js-reset"
+        <a class="resetlink" id="js-reset"
            href="{% url 'todos:reset' %}">
             Reset
         </a>

@@ -76,24 +76,6 @@ class TodoMethodTests(TestCase):
         self.assertEqual(todo, last)
         self.assertEqual(todo.priority, count)
 
-    def test_creating_todo_with_existing_priority_pushes_the_list(self):
-        """
-        When creating a todo with a priority that already exists, the objects
-        with a priority gte should be pushed down
-        """
-        old_priority1 = Todo.objects.create(
-            text='test',
-            priority=1
-        )
-
-        new_priority1 = Todo.objects.create(
-            text='new_priorty_one',
-            priority=1
-        )
-
-        self.assertEqual(Todo.objects.get(priority=1), new_priority1)
-        self.assertEqual(Todo.objects.get(priority=2), old_priority1)
-
     def test_create_a_todo_with_no_priority_and_gaps_in_priorities(self):
         """
         Bug #8: A todo will be created with the priority eq to the lowest
@@ -153,7 +135,8 @@ class TodoIndexViewTests(TestCase):
 
         response = self.client.get(reverse('todos:index'))
 
-        self.assertContains(response, '1 / 2')
+        self.assertContains(response, '1')
+        self.assertContains(response, '/ 2')
 
 
 class TodoFocusViewTests(TestCase):
@@ -363,7 +346,7 @@ class TodoResetViewTests(TestCase):
     def test_reset_view_returns_json_response(self):
         """
         After the reset view's logic has been completed, the client
-        should be set a JSON
+        should be sent a JSON response
         """
         Todo.objects.create(text='incomplete')
 
@@ -375,3 +358,53 @@ class TodoResetViewTests(TestCase):
         data = json.loads(json_string)
 
         self.assertTrue(data['reset'])
+
+
+class TodoReorderViewTests(TestCase):
+    def test_reorder_view_correctly_sets_new_order(self):
+        """
+        Submitting `todos` post data to the reorder view should
+        set the priorities of each of the todos to mirror what
+        was set in the DOM.
+        """
+        first = Todo.objects.create(
+            text='first',
+            priority=1
+        )
+        second = Todo.objects.create(
+            text='second',
+            priority=2
+        )
+
+        self.client.post(
+            reverse('todos:reorder'),
+            {
+                second.pk: 1,
+                first.pk: 2
+            }
+        )
+
+        self.assertEqual(Todo.objects.get(priority=1).pk, second.pk)
+        self.assertEqual(Todo.objects.get(priority=2).pk, first.pk)
+
+    def test_reorder_view_returns_json_response(self):
+        """
+        After the reorder view's logic has been completed, the client
+        should be sent a JSON response
+        """
+        first = Todo.objects.create(text='first')
+        second = Todo.objects.create(text='second')
+
+        response = self.client.post(
+            reverse('todos:reorder'),
+            {
+                second.pk: 1,
+                first.pk: 2,
+                'csrfmiddlewaretoken': "0U62KNZSdUuLTpvzX9Q35ItBMhv9W2sG"
+            }
+        )
+
+        json_string = response.content
+        data = json.loads(json_string)
+
+        self.assertTrue(data['reordered'])

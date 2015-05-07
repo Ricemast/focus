@@ -4,7 +4,7 @@ from todos.models import Todo
 
 
 class TodoAdmin(admin.ModelAdmin):
-    fields = ['text', 'priority', 'complete']
+    fields = ['text', 'complete']
     list_display = ('text', 'priority', 'complete')
     ordering = ('priority',)
 

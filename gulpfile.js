@@ -63,7 +63,9 @@ gulp.task('static:images', function () {
 // Vendor JS - Add files manually
 gulp.task('vendor:js', function () {
   return gulp.src([
-      'bower_components/jquery/dist/jquery.min.js'
+      'bower_components/jquery/dist/jquery.min.js',
+      'bower_components/Sortable/Sortable.min.js',
+      'bower_components/Sortable/jquery.binding.js'
   ])
     .pipe($.concat('vendor.js'))
     .pipe($.uglify())

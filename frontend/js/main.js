@@ -1,7 +1,11 @@
 $(function() {
 
     // Helper function for submitting a POST request to a django view.
-    function ajaxSubmit(href, successCallback) {
+    function ajaxSubmit(href, successCallback, data) {
+
+        if (!data)
+            data = {};
+
         // Get the CSRF token from the page. Should be included in the
         // template: {% csrf_token %}
         var csrf = $('input[name="csrfmiddlewaretoken"]').val();
@@ -10,9 +14,11 @@ $(function() {
             return;
         }
 
+        data.csrfmiddlewaretoken = csrf;
+
         $.post(
             href,
-            {csrfmiddlewaretoken: csrf}
+            data
         ).done(function(response) {
             successCallback(response);
         }).fail(function(response) {
@@ -45,7 +51,7 @@ $(function() {
     // Helper function for reseting the UI for all of the todo elements.
     function resetTodos(response) {
         if (response.reset) {
-            $('.task').each(function() {
+            $('.todo').each(function() {
                 $(this).removeClass('-complete')
                        .find('.checkbox > i')
                        .removeClass('fa-check-square')
@@ -64,6 +70,18 @@ $(function() {
         $('.js-numcompleted').text(number);
     }
 
+    // Sorting complete callback. Ittereates the todos and re-numbers
+    // them.
+    function finishedSorting(response) {
+        if (response.reordered) {
+            $('.todo').each(function(i) {
+                $(this).find('.priority').text(i + 1);
+            });
+        } else {
+            alert('Error with reseting todos');
+        }
+    }
+
     // Quick complete toggle handler
     $('.js-toggle').click(function(e) {
         e.preventDefault();
@@ -71,9 +89,21 @@ $(function() {
     });
 
     // Reset all todos handler
-    $('.js-reset').click(function(e) {
+    $('#js-reset').click(function(e) {
         e.preventDefault();
         ajaxSubmit($(this).attr('href'), resetTodos);
+    });
+
+    $("#js-todos").sortable({
+        ghostClass: '-dragging',
+        onEnd: function () {
+            var data = {};
+            $('.todo').each(function(i) {
+                var id = $(this).attr('id').split('todo')[1];
+                data[id] = i + 1;
+            });
+            ajaxSubmit('/reorder/', finishedSorting, data);
+        },
     });
 
 });

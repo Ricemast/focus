@@ -1,0 +1,13 @@
+//------------------------------------
+//  Shelf styles
+//------------------------------------
+
+.shelflink {
+    float: right;
+    opacity: 0.3;
+    transition: all .3s;
+
+    &:hover {
+        opacity: 1;
+    }
+}

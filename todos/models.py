@@ -29,7 +29,9 @@ class Todo(models.Model):
         """
         if not self.priority:
             if Todo.objects.count() > 0:
-                self.priority = Todo.objects.last().priority + 1
+                self.priority = Todo.objects.aggregate(
+                    models.Max('priority')
+                )['priority__max'] + 1
             else:
                 self.priority = 1
 

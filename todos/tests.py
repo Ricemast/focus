@@ -95,7 +95,7 @@ class TodoIndexViewTests(TestCase):
         """
         response = self.client.get(reverse('todos:index'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "No tasks yet.")
+        self.assertContains(response, "No todos yet.")
 
     def test_index_view_with_single_todo(self):
         """
@@ -408,3 +408,41 @@ class TodoReorderViewTests(TestCase):
         data = json.loads(json_string)
 
         self.assertTrue(data['reordered'])
+
+
+class CreateTodoViewTest(TestCase):
+    def test_creating_todo(self):
+        """
+        Submitting the form with some text should create a new todo with that
+        text
+        """
+        url = reverse('todos:create')
+
+        r = self.client.get(url)
+
+        form = r.context['form']
+        data = form.initial
+
+        data['text'] = 'create test'
+
+        self.client.post(url, data)
+
+        self.assertEqual(Todo.objects.count(), 1)
+        self.assertEqual(Todo.objects.first().text, 'create test')
+
+    def test_creating_empty_todo(self):
+        """
+        Submitting the form with no text shouldn't create a new todo
+        """
+        url = reverse('todos:create')
+
+        r = self.client.get(url)
+
+        form = r.context['form']
+        data = form.initial
+
+        data['text'] = ''
+
+        self.client.post(url, data)
+
+        self.assertEqual(Todo.objects.count(), 0)

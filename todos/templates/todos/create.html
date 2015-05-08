@@ -1,0 +1,28 @@
+{% extends "focus/base.html" %}
+
+{% block pageclass %}{% endblock %}
+
+{% block subtitle %}Create new todo{% endblock %}
+
+{% block body %}
+
+    <form id="contact" method="post" action="">
+        <fieldset>
+            {% csrf_token %}
+
+            {{ form.text }}
+            {{ form.text.errors }}
+
+            <input type="submit"
+                   name="submit"
+                   id="submit"
+                   value="Create todo" />
+
+            <a href="{% url 'todos:index' %}">
+                Cancel
+            </a>
+
+        </fieldset>
+    </form>
+
+{% endblock %}

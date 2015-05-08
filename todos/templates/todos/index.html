@@ -2,12 +2,20 @@
 
 {% block pageclass %}-index{% endblock %}
 
-{% block body %}
-
+{% block shelf %}
     <h1>
-        Focus
-        <small>Click on a todo to focus on it</small>
+        <a href="{% url 'todos:index' %}">Focus</a>
+        <small>
+            Click on a todo to focus on it
+        </small>
+        <a href="{% url 'todos:create' %}"
+           class="shelflink">
+            <i class="fa fa-plus"></i>
+        </a>
     </h1>
+{% endblock %}
+
+{% block body %}
 
     {% csrf_token %}
 

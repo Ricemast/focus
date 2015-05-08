@@ -7,22 +7,29 @@
 {% block body %}
 
     <form id="contact" method="post" action="">
-        <fieldset>
-            {% csrf_token %}
+        {% csrf_token %}
 
-            {{ form.text }}
-            {{ form.text.errors }}
+        {{ form.text.errors }}
 
-            <input type="submit"
-                   name="submit"
-                   id="submit"
-                   value="Create todo" />
+        <input type="text"
+               id="{{ form.text.auto_id }}"
+               class="input"
+               maxlength="200"
+               placeholder="Enter new todo"
+               autofocus
+               name="{{ form.text.name }}">
 
-            <a href="{% url 'todos:index' %}">
-                Cancel
-            </a>
+        <input type="submit"
+               name="submit"
+               class="button"
+               id="submit"
+               value="Create" />
 
-        </fieldset>
+        <a href="{% url 'todos:index' %}"
+           class="button -cancel">
+            Cancel
+        </a>
+
     </form>
 
 {% endblock %}

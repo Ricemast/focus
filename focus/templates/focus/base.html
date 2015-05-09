@@ -7,40 +7,50 @@
         <meta name="description" content="Get things done">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        {% load staticfiles %}
         <link rel="icon"
               type="image/x-icon"
-              href="../../static/images/favicon.ico" />
+              href="{% static 'images/favicon.ico' %}" />
 
-        {% load staticfiles %}
-        <link rel="stylesheet" type="text/css" media="screen"
-              href="{% static 'css/main.css' %}" />
         <link rel="stylesheet" type="text/css" media="screen"
               href="{% static 'css/vendor.css' %}" />
+        <link rel="stylesheet" type="text/css" media="screen"
+              href="{% static 'css/main.css' %}" />
     </head>
-    <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">
-                You are using an <strong>outdated</strong> browser. Please
-                <a href="http://browsehappy.com/">upgrade your browser</a>
-                to improve your experience.</p>
-        <![endif]-->
+    <body aurelia-app="animation-main">
+        <div class="splash">
+          <div class="message">Focus</div>
+          <i class="fa fa-spinner fa-spin"></i>
+        </div>
 
-        <section class="container {% block pageclass %}{% endblock %}">
-            {% block shelf %}
-                <h1>
-                    <a href="{% url 'todos:index' %}">Focus</a>
-                    <small>
-                        {% block subtitle %}
-                        {% endblock %}
-                    </small>
-                </h1>
-            {% endblock %}
+<!--
+   -        <section class="container {% block pageclass %}{% endblock %}">
+   -            {% block shelf %}
+   -                <h1>
+   -                    <a href="{% url 'todos:index' %}">Focus</a>
+   -                    <small>
+   -                        {% block subtitle %}
+   -                        {% endblock %}
+   -                    </small>
+   -                </h1>
+   -            {% endblock %}
+   -
+   -            {% block body %}
+   -            {% endblock %}
+   -        </section>
+   -->
 
-            {% block body %}
-            {% endblock %}
-        </section>
-
-        <script src="{% static 'js/vendor.js' %}"></script>
-        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'system.js' %}"></script>
+        <script src="{% static 'config.js' %}"></script>
+        <script>
+            System.config({
+                "paths": {
+                    "*": "static/*.js"
+                }
+            });
+        </script>
+        <script>
+            System.import('aurelia-bootstrapper');
+        </script>
     </body>
 </html>

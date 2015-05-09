@@ -29,5 +29,5 @@ urlpatterns = [
         r'^add/$',
         views.CreateTodoView.as_view(),
         name='create',
-    ),
+    )
 ]

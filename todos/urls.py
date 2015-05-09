@@ -25,4 +25,9 @@ urlpatterns = [
         views.ReorderTodosView.as_view(),
         name='reorder',
     ),
+    url(
+        r'^add/$',
+        views.CreateTodoView.as_view(),
+        name='create',
+    ),
 ]

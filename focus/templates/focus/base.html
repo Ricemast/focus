@@ -26,6 +26,16 @@
         <![endif]-->
 
         <section class="container {% block pageclass %}{% endblock %}">
+            {% block shelf %}
+                <h1>
+                    <a href="{% url 'todos:index' %}">Focus</a>
+                    <small>
+                        {% block subtitle %}
+                        {% endblock %}
+                    </small>
+                </h1>
+            {% endblock %}
+
             {% block body %}
             {% endblock %}
         </section>

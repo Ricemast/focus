@@ -8,6 +8,8 @@ a.button,
     color: $white;
     display: inline-block;
     padding: 0.5rem 1rem;
+    border: 0;
+    line-height: 1.4rem;
 }
 
 .button:hover {
@@ -16,11 +18,13 @@ a.button,
     text-decoration: none;
 }
 
-.button.-home {
+.button.-home,
+.button.-cancel {
     background: $red;
 }
 
-.button.-home:hover {
+.button.-home:hover,
+.button.-cancel:hover {
     background: $red-hover;
 }
 

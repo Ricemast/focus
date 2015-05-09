@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views import generic
 
@@ -23,6 +23,13 @@ class IndexView(generic.ListView):
 class FocusView(generic.DetailView):
     model = Todo
     template_name = 'todos/focus.html'
+
+
+class CreateTodoView(generic.CreateView):
+    model = Todo
+    template_name = 'todos/create.html'
+    fields = ['text']
+    success_url = reverse_lazy('todos:index')
 
 
 class ToggleTodoStatusView(generic.detail.SingleObjectMixin, generic.View):

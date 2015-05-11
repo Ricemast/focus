@@ -1,4 +1,11 @@
 <template>
+    <h1>
+        <a href="#">Focus</a>
+        <small>
+            ${subheading}
+        </small>
+    </h1>
+
     <ul class="todos">
         <li repeat.for="todo of todos"
             class="todo ${todo.complete ? '-complete' : ''}"
@@ -13,10 +20,21 @@
                 ${todo.text}
             </a>
 
-            <span class="checkbox js-toggle"
-               data-href="{% url 'todos:toggle' todo.pk %}">
+            <span class="checkbox"
+                  click.trigger="todo.toggleComplete()">
                 <i class="fa ${todo.complete ? 'fa-check-square' : 'fa-square'}"></i>
             </span>
         </li>
     </ul>
+
+    <p class="todolistfooter">
+        <span class="js-numcompleted">
+            ${numcompleted}
+        </span> / ${todos.length} |
+        <a class="resetlink"
+           href="#"
+           click.trigger="resetTodos()">
+            Reset
+        </a>
+    </p>
 </template>

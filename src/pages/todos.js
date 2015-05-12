@@ -4,7 +4,7 @@ import {HttpClient} from 'aurelia-http-client';
 import {prioritise} from '../utils/prioritise';
 import {toggleComplete} from '../utils/toggleComplete';
 
-const url = 'http://127.0.0.1:8000/api/todo/?format=json';
+const url = 'http://127.0.0.1:8000/todos/?format=json';
 
 export class Todos {
     static inject() { return [HttpClient]; }
@@ -20,7 +20,7 @@ export class Todos {
     fetchTodos() {
         this.http.get(url).then(response => {
             let count = 0;
-            let todos = JSON.parse(response.response).objects.sort(prioritise);
+            let todos = JSON.parse(response.response).sort(prioritise);
 
             todos.forEach(todo => {
                 todo.toggleComplete = toggleComplete;

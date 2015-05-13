@@ -22,6 +22,6 @@ gulp.task('watch', ['serve'], function() {
   ).on('change', reportChange);
   gulp.watch(
       paths.style,
-     ['build-styles', browserSync.reload]
+      ['build-html', browserSync.reload]
   ).on('change', reportChange);
 });

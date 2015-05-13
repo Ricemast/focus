@@ -8,6 +8,8 @@ var sass = require('gulp-sass');
 var paths = require('../paths');
 var compilerOptions = require('../babel-options');
 var assign = Object.assign || require('object.assign');
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
 
 // transpiles changed es6 files to SystemJS format
 // the plumber() call prevents 'pipe breaking' caused
@@ -38,7 +40,8 @@ gulp.task('build-styles', function () {
       loadPath: ['frontend/scss']
     }))
     .on('error', function (e) { console.error(e.message); })
-    .pipe(gulp.dest('static/css'));
+    .pipe(gulp.dest('static/css'))
+    .pipe(reload({stream: true}));
 });
 
 // copies changed html files to the output directory

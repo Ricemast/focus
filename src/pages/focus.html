@@ -1,0 +1,22 @@
+<template>
+    <div class="focus">
+        ${todo.text}
+        <a click.trigger="toggle()"
+           href="#"
+           class="${todo.complete ? ' -complete' : ''}">
+            <i class="fa fa-check"></i>
+        </a>
+    </div>
+
+    <template if.bind="todo.next">
+        <a class="nextlink"
+           href="/#/focus/${todo.next}">
+            ${todo.complete ? 'Next' : 'Skip'}
+        </a>
+    </template>
+
+    <a class="homelink"
+       href="/#/">
+        Home
+    </a>
+</template>

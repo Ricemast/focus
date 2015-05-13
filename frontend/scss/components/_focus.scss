@@ -3,13 +3,25 @@
 //------------------------------------
 
 .focus {
-    background: $dark-blue;
-    color: $white;
+    color: $grey;
     font-size: 4rem;
     padding: 2rem;
     text-align: center;
 }
 
-.focus.-complete {
-    background: $green;
+.focus > a {
+    opacity: 0.2;
+    color: $grey;
+    outline: 0;
+    transition: all .2s ease-in-out;
+    text-shadow: 0px 2px 2px rgba(150, 150, 150, 0.8);
+
+    &.-complete {
+        opacity: 0.6;
+        color: $green;
+    }
+
+    &:hover {
+        opacity: 0.8;
+    }
 }

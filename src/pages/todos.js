@@ -2,7 +2,6 @@
 import {HttpClient} from 'aurelia-http-client';
 
 import {prioritise} from '../utils/prioritise';
-import {toggleComplete} from '../utils/toggleComplete';
 
 // Create a consts file with all urls in
 const todos_url = '/todos/';
@@ -23,12 +22,11 @@ export class Todos {
 
     // Fetches and parses the todo JSON from the API
     fetchTodos() {
-        this.http.get(todos_url).then(response => {
+        return this.http.get(todos_url).then(response => {
             let count = 0;
             let todos = JSON.parse(response.response).sort(prioritise);
 
             todos.forEach(todo => {
-                todo.toggleComplete = toggleComplete;
                 count += todo.complete ? 1 : 0;
             });
 
@@ -84,9 +82,9 @@ export class Todos {
         });
     }
 
-    // Runs before the view is displayed
+    // Wait for the todos to be fetched before loading the view.
     activate() {
-        this.fetchTodos();
+        return this.fetchTodos();
     }
 
 }

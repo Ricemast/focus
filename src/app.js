@@ -1,15 +1,20 @@
 export class App {
     configureRouter(config, router){
-        config.title = 'Focus';
+        this.router = router;
 
+        config.title = 'Focus';
         config.map([
             {
-                route: ['','todos'],
+                route: '',
                 moduleId: './pages/todos',
-                title:'Todos'
+                title: 'Home'
+            },
+            {
+                route: 'focus/:id',
+                moduleId: './pages/focus',
+                title: 'Focus'
             }
         ]);
 
-        this.router = router;
     }
 }

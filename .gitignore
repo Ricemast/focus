@@ -9,4 +9,5 @@ bower_components
 .npmignore
 **/*.pyc
 **/*.swp
+**/*.swo
 *.log

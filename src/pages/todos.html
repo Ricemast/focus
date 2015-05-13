@@ -21,7 +21,7 @@
             </a>
 
             <span class="checkbox"
-                  click.trigger="todo.toggleComplete()">
+                  click.trigger="$parent.toggleComplete(todo.id)">
                 <i class="fa ${todo.complete ? 'fa-check-square' : 'fa-square'}"></i>
             </span>
         </li>

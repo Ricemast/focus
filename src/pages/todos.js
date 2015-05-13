@@ -4,13 +4,18 @@ import {HttpClient} from 'aurelia-http-client';
 import {prioritise} from '../utils/prioritise';
 import {toggleComplete} from '../utils/toggleComplete';
 
-const url = 'http://127.0.0.1:8000/todos/?format=json';
+// Create a consts file with all urls in
+const todos_url = '/todos/';
 
 export class Todos {
     static inject() { return [HttpClient]; }
 
     constructor(http) {
-        this.http = http;
+        this.http = new HttpClient().configure(x => {
+            x.withBaseUrl('http://127.0.0.1:8000');
+            x.withHeader('Content-Type', 'application/json');
+        });
+
         this.subheading = 'Click on a todo to focus';
         this.todos = {};
         this.numcompleted = 0;
@@ -18,7 +23,7 @@ export class Todos {
 
     // Fetches and parses the todo JSON from the API
     fetchTodos() {
-        this.http.get(url).then(response => {
+        this.http.get(todos_url).then(response => {
             let count = 0;
             let todos = JSON.parse(response.response).sort(prioritise);
 
@@ -34,9 +39,34 @@ export class Todos {
         });
     }
 
+    // Toggles the status of a todo object
+    toggleComplete(id) {
+        let put_url = `/todos/${id}/`;
+        let todo = this.todos.filter(function(todo) {
+            return todo.id == id;
+        })[0];
+
+        if (!todo) {
+            console.log('Error, no todo with that ID exists');
+            return;
+        }
+
+        let status = todo.complete ? false : true;
+
+        this.http.patch(put_url, {'complete': status}).then(response => {
+            if (response.isSuccess)
+                todo.complete = status;
+                this.numcompleted += status ? 1 : -1;
+        }, (error) => {
+            console.log(error);
+            // TODO: Create error at top of page or something
+        });
+    }
+
     // Resets all the todos to be incomplete
     resetTodos() {
         this.todos.forEach(todo => {
+            // TODO: Make update on server
             todo.complete = false;
         });
     }

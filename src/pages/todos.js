@@ -65,9 +65,22 @@ export class Todos {
 
     // Resets all the todos to be incomplete
     resetTodos() {
-        this.todos.forEach(todo => {
-            // TODO: Make update on server
+        let todos = this.todos;
+
+        todos.forEach(todo => {
             todo.complete = false;
+        });
+
+        this.http.patch(
+            '/todos/reset/',
+            JSON.stringify(todos)
+        ).then(response => {
+            if (response.isSuccess)
+                this.todos = todos;
+                this.numcompleted = 0;
+        }, (error) => {
+            console.log(error);
+            // TODO: Create error at top of page or something
         });
     }
 

@@ -2,9 +2,10 @@ from django.http import JsonResponse
 from django.views import generic
 
 from rest_framework import generics
+from rest_framework_bulk import ListBulkCreateUpdateDestroyAPIView
 
 from todos.models import Todo
-from todos.serializers import TodoSerializer
+from todos.serializers import TodoSerializer, TodoBulkSerializer
 
 
 class TodoList(generics.ListCreateAPIView):
@@ -17,22 +18,9 @@ class TodoDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TodoSerializer
 
 
-class ResetAllTodosView(generic.list.MultipleObjectMixin, generic.View):
-    """Make all todos not complete"""
-    model = Todo
-
-    def post(self, request, *args, **kwargs):
-        self.queryset = self.get_queryset()
-        for todo in self.queryset:
-            todo.complete = False
-            todo.save()
-
-        return JsonResponse(
-            {
-                'reset': True,
-                'numcompleted': Todo.objects.filter(complete=True).count()
-            }
-        )
+class TodoReset(ListBulkCreateUpdateDestroyAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = TodoBulkSerializer
 
 
 class ReorderTodosView(generic.View):

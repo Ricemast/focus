@@ -1,20 +1,10 @@
 /*jshint esnext:true */
-import {HttpClient} from 'aurelia-http-client';
-
+import {http}       from '../utils/http';
 import {prioritise} from '../utils/prioritise';
-
-// Create a consts file with all urls in
-const todos_url = '/todos/';
+import {vars}       from '../utils/variables';
 
 export class Todos {
-    static inject() { return [HttpClient]; }
-
-    constructor(http) {
-        this.http = new HttpClient().configure(x => {
-            x.withBaseUrl('http://127.0.0.1:8000');
-            x.withHeader('Content-Type', 'application/json');
-        });
-
+    constructor() {
         this.subheading = 'Click on a todo to focus';
         this.todos = {};
         this.numcompleted = 0;
@@ -22,15 +12,13 @@ export class Todos {
 
     // Fetches and parses the todo JSON from the API
     fetchTodos() {
-        return this.http.get(todos_url).then(response => {
-            let count = 0;
-            let todos = JSON.parse(response.response).sort(prioritise);
+        return http.get(vars.todos_url).then(response => {
+            this.todos = JSON.parse(response.response).sort(prioritise);
 
-            todos.forEach(todo => {
+            let count = 0;
+            this.todos.forEach(todo => {
                 count += todo.complete ? 1 : 0;
             });
-
-            this.todos = todos;
             this.numcompleted = count;
         }, () => {
             alert('There was an error fetching the todos');
@@ -39,7 +27,6 @@ export class Todos {
 
     // Toggles the status of a todo object
     toggleComplete(id) {
-        let put_url = `/todos/${id}/`;
         let todo = this.todos.filter(function(todo) {
             return todo.id == id;
         })[0];
@@ -51,10 +38,11 @@ export class Todos {
 
         let status = todo.complete ? false : true;
 
-        this.http.patch(put_url, {'complete': status}).then(response => {
-            if (response.isSuccess)
+        http.patch(vars.todo_url(id), {'complete': status}).then(response => {
+            if (response.isSuccess) {
                 todo.complete = status;
                 this.numcompleted += status ? 1 : -1;
+            }
         }, (error) => {
             console.log(error);
             // TODO: Create error at top of page or something
@@ -69,7 +57,7 @@ export class Todos {
             todo.complete = false;
         });
 
-        this.http.patch(
+        http.patch(
             '/todos/reset/',
             JSON.stringify(todos)
         ).then(response => {

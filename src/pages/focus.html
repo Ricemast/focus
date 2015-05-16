@@ -1,22 +1,27 @@
 <template>
+
     <div class="focus">
         ${todo.text}
-        <a click.trigger="toggle()"
+        <a click.trigger="toggleComplete()"
            href="#"
            class="${todo.complete ? ' -complete' : ''}">
             <i class="fa fa-check"></i>
         </a>
     </div>
 
-    <template if.bind="todo.next">
-        <a class="nextlink"
-           href="/#/focus/${todo.next}">
-            ${todo.complete ? 'Next' : 'Skip'}
+    <div class="focusfooter">
+        <a class="homelink"
+           href="/#/">
+            <i class="fa fa-home"></i>
         </a>
-    </template>
 
-    <a class="homelink"
-       href="/#/">
-        Home
-    </a>
+        <template if.bind="todo.next">
+            <a class="nextlink"
+               href="/#/focus/${todo.next}">
+                ${todo.complete ? 'Next' : 'Skip'}
+            </a>
+        </template>
+
+    </div>
+
 </template>

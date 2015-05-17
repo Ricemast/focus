@@ -2,6 +2,8 @@
 import {http}       from '../utils/http';
 import {prioritise} from '../utils/prioritise';
 import {vars}       from '../utils/variables';
+import $            from 'jquery/jquery.min';
+import Sortable     from 'sortable/Sortable.min';
 
 export class Todos {
     constructor() {
@@ -58,15 +60,48 @@ export class Todos {
         });
 
         http.patch(
-            '/todos/reset/',
+            vars.todos_url,
             JSON.stringify(todos)
         ).then(response => {
-            if (response.isSuccess)
+            if (response.isSuccess) {
                 this.todos = todos;
                 this.numcompleted = 0;
+            }
         }, (error) => {
             console.log(error);
             // TODO: Create error at top of page or something
+        });
+    }
+
+    // Init the Sortable JS once the page has loaded
+    attached() {
+        let el = document.getElementById('js-todos');
+        let todos = this.todos;
+
+        new Sortable(el, {
+            ghostClass: '-dragging',
+            onEnd: function () {
+                $('.todo').each(function(i) {
+                    let id = $(this).attr('id').split('todo')[1];
+
+                    let todo = todos.filter(function(todo) {
+                        return todo.id == id;
+                    })[0];
+
+                    todo.priority = i + 1;
+                });
+
+                http.patch(
+                    vars.todos_url,
+                    JSON.stringify(todos)
+                ).then(response => {
+                    if (response.isSuccess)
+                        this.todos = todos;
+                }, (error) => {
+                    console.log(error);
+                    // TODO: Create error at top of page or something
+                });
+            },
         });
     }
 

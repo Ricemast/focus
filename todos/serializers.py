@@ -23,3 +23,10 @@ class TodoBulkSerializer(BulkSerializerMixin, serializers.ModelSerializer):
     class Meta(object):
         model = Todo
         list_serializer_class = BulkListSerializer
+        fields = (
+            'id',
+            'text',
+            'priority',
+            'complete',
+            'next',
+        )

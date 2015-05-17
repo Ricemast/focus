@@ -26,12 +26,13 @@ System.config({
     "babel": "npm:babel-core@5.2.17",
     "babel-runtime": "npm:babel-runtime@5.2.17",
     "bootstrap": "github:twbs/bootstrap@3.3.4",
-    "concise": "github:concisecss/concise.css@2.1.0",
     "core-js": "npm:core-js@0.9.6",
     "css": "github:systemjs/plugin-css@0.1.10",
     "font-awesome": "npm:font-awesome@4.3.0",
     "gulp-sass": "npm:gulp-sass@2.0.0",
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+    "sortable": "github:rubaXa/sortable@1.2.0",
+    "jquery": "github:components/jquery@2.1.3",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
     "github:aurelia/animator-css@0.2.0": {
       "aurelia-templating": "github:aurelia/templating@0.11.2"

@@ -1,14 +1,16 @@
 <template>
-    <h1>
-        <a href="#">Focus</a>
-        <small>
-            ${subheading}
-        </small>
-    </h1>
+    <div class="shelf">
+        <h1 class="heading">
+            <a href="#">Focus</a>
+            <small>
+                ${subheading}
+            </small>
+        </h1>
 
-    <span class="numcompleted">
-        ${numcompleted} / ${todos.length} |
-    </span>
+        <span class="numcompleted">
+            ${numcompleted} / ${todos.length}
+        </span>
+    </div>
 
     <ul id="js-todos" class="todos">
         <li repeat.for="todo of todos"

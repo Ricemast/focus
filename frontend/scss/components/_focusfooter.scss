@@ -1,0 +1,22 @@
+//------------------------------------
+//  Focusfooter styles
+//------------------------------------
+
+.focusfooter {
+    background: $white-hover;
+    padding: 0.4rem;
+}
+
+.focusfooter > a {
+    padding: 0 1rem;
+    color: $white;
+
+    &:hover {
+        text-decoration: none;
+        color: $dark-blue;
+    }
+}
+
+.focusfooter > .nextlink {
+    float: right;
+}

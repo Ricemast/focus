@@ -13,11 +13,20 @@ class Todo(models.Model):
     complete = models.BooleanField(default=False)
 
     @property
+    def previous(self):
+        """Return the id of the previous highest priority todo."""
+        t = Todo.objects.order_by('priority').filter(
+            priority__lt=self.priority
+        ).last()
+        return t.id if t else None
+
+    @property
     def next(self):
-        """Return the next highest priority todo."""
-        return Todo.objects.order_by('priority').filter(
+        """Return the id of the next highest priority todo."""
+        t = Todo.objects.order_by('priority').filter(
             priority__gt=self.priority
         ).first()
+        return t.id if t else None
 
     def __str__(self):
         return self.text

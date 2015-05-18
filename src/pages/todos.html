@@ -1,0 +1,40 @@
+<template>
+    <h1>
+        <a href="#">Focus</a>
+        <small>
+            ${subheading}
+        </small>
+    </h1>
+
+    <ul id="js-todos" class="todos">
+        <li repeat.for="todo of todos"
+            class="todo ${todo.complete ? '-complete' : ''}"
+            id="todo${todo.id}">
+
+            <span class="priority">
+                ${todo.priority}
+            </span>
+
+            <a class="focuslink"
+               href="/#focus/${todo.id}">
+                ${todo.text}
+            </a>
+
+            <span class="checkbox"
+                  click.trigger="$parent.toggleComplete(todo.id)">
+                <i class="fa ${todo.complete ? 'fa-check-square' : 'fa-square'}"></i>
+            </span>
+        </li>
+    </ul>
+
+    <p class="todolistfooter">
+        <span class="js-numcompleted">
+            ${numcompleted}
+        </span> / ${todos.length} |
+        <a class="resetlink"
+           href="#"
+           click.trigger="resetTodos()">
+            Reset
+        </a>
+    </p>
+</template>

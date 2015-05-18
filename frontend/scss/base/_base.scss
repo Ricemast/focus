@@ -10,12 +10,15 @@ a,
 a:hover,
 a:visited {
     color: $dark-blue;
+    text-decoration: none;
+    outline: 0;
 }
 
-.-floatright {
-    float: right;
+a:hover {
+    text-decoration: underline;
 }
 
-.-floatleft {
-    float: left;
+ul {
+    margin: 0;
+    padding: 0;
 }

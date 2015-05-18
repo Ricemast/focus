@@ -1,47 +1,14 @@
-# Project Specific
-*.sw[op]
-*~
-.DS_Store
-*.sublime-workspace
-.sass-cache
-node_modules/
-bower_components/
-static/
-*.sqlite3
-
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-
-# C extensions
-*.so
-
-# Distribution / packaging
-bin/
-build/
-develop-eggs/
-dist/
-eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-.tox/
-.coverage
-.cache
-nosetests.xml
-coverage.xml
-
-# Django
+node_modules
+jspm_packages
+bower_components
+static
+.idea
+.DS_STORE
+/dist
+.editorconfig
+.jshintrc
+.npmignore
+**/*.pyc
+**/*.swp
+**/*.swo
 *.log
-*.pot

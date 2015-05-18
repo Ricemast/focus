@@ -61,7 +61,9 @@ TODO: Write usage instructions
 
 ## Testing
 
-TODO: Write testing instructions
+*Django* tests are run using `./manage.py test`
+
+*Aurelia* test are yet to be written.
 
 ## Contributing
 

@@ -15,16 +15,18 @@ class Todo(models.Model):
     @property
     def previous(self):
         """Return the id of the previous highest priority todo."""
-        return Todo.objects.order_by('priority').filter(
+        t = Todo.objects.order_by('priority').filter(
             priority__lt=self.priority
-        ).last().id
+        ).last()
+        return t.id if t else None
 
     @property
     def next(self):
         """Return the id of the next highest priority todo."""
-        return Todo.objects.order_by('priority').filter(
+        t = Todo.objects.order_by('priority').filter(
             priority__gt=self.priority
-        ).first().id
+        ).first()
+        return t.id if t else None
 
     def __str__(self):
         return self.text

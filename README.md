@@ -1,94 +1,104 @@
-# aurelia-skeleton-navigation
+# Focus
 
-[![ZenHub](https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.io)
-[![Join the chat at https://gitter.im/aurelia/discuss](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/aurelia/discuss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+**Focus** is a personal project to help me get things done.
 
-This skeleton is part of the [Aurelia](http://www.aurelia.io/) platform. It sets up a standard navigation-style app using gulp to build your ES6 code with the Babel compiler. Karma/Protractor/Jasmine testing is also configured.
+Currently it is a simple, opinionated todo list. Soon **Focus** will be
+a fully featured, modular, type based productivity multitool.
 
-> To keep up to date on [Aurelia](http://www.aurelia.io/), please visit and subscribe to [the official blog](http://blog.durandal.io/). If you have questions, we invite you to [join us on Gitter](https://gitter.im/aurelia/discuss). If you would like to have deeper insight into our development process, please install the [ZenHub](https://zenhub.io) Chrome Extension and visit any of our repository's boards. You can get an overview of all Aurelia work by visiting [the framework board](https://github.com/aurelia/framework#boards).
+## Installation
 
-## Running The App
+**Focus**'s backend is a simple django application with a
+django-rest-framework API. It is configured to run on mysql (you may
+need to change the db settings in `focus/settings.py`). The frontend is an
+[Aurelia](http://aurelia.io/) application. Aurelia is a JavaScript client
+framework build on next gen JS (ES6-7).
 
-To run the app, follow these steps.
+To get up and running simply clone this repository, and setup the DB using:
 
-1. Ensure that [NodeJS](http://nodejs.org/) is installed. This provides the platform on which the build tooling runs.
-2. From the project folder, execute the following command:
+`./manage.py syncdb`
 
-  ```shell
-  npm install
-  ```
-3. Ensure that [Gulp](http://gulpjs.com/) is installed. If you need to install it, use the following command:
+`./manage.py migrate`
 
-  ```shell
-  npm install -g gulp
-  ```
-4. Ensure that [jspm](http://jspm.io/) is installed. If you need to install it, use the following command:
+The development tools are managed through [npm](https://www.npmjs.com/).
 
-  ```shell
-  npm install -g jspm
-  ```
-  > **Note:** jspm queries GitHub to install semver packages, but GitHub has a rate limit on anonymous API requests. It is advised that you configure jspm with your GitHub credentials in order to avoid problems. You can do this by executing `jspm registry config github` and following the prompts.
-5. Install the client-side dependencies with jspm:
+Install the *npm* packages with `npm install`
 
-  ```shell
-  jspm install -y
-  ```
-  >**Note:** Windows users, if you experience an error of "unknown command unzip" you can solve this problem by doing `npm install -g unzip` and then re-running `jspm install`.
-6. To run the app, execute the following command:
+Frontend dependencies are managed with [jspm](http://jspm.io/).
 
-  ```shell
-  gulp watch
-  ```
-7. Browse to [http://localhost:9000](http://localhost:9000) to see the app. You can make changes in the code found under `src` and the browser should auto-refresh itself as you save files.
+Install the *bower* packages with `jspm install -y`
 
-> Note: At present there is a bug in the HTMLImports polyfill which only occurs on IE. We have submitted a pull request to the team with the fix. In the mean time, if you want to test on IE, you can work around the issue by explicitly adding a script tag before you load system.js. The script tag should look something like this (be sure to confirm the version number):
+The static assests are built using [gulp](http://gulpjs.com/).
 
-```html
-<script src="jspm_packages/github/webcomponents/webcomponentsjs@0.5.2/HTMLImports.js"></script>
-```
+Build and watch the assests with `gulp watch`
 
-## Running The Unit Tests
+You need to have both the API server and the frontend server running to view
+**Focus**. `gulp watch` should handle serving the frontend. You will need to
+run `./manage.py runserver` to start the django server.
 
-To run the unit tests, first ensure that you have followed the steps above in order to install all dependencies and successfully build the library. Once you have done that, proceed with these additional steps:
+Browse to [http://localhost:9000](http://localhost:9000) to see the app.
 
-1. Ensure that the [Karma](http://karma-runner.github.io/) CLI is installed. If you need to install it, use the following command:
+### Development
 
-  ```shell
-  npm install -g karma-cli
-  ```
-2. Install Aurelia libs for test visibility:
+*Django* development is split into **applications**. Currently the base
+application is `focus`. This holds the settings etc. Models and API views are
+in the `todos` application.
 
-```shell
-jspm install aurelia-framework
-jspm install aurelia-http-client
-jspm install aurelia-router
-```
-3. You can now run the tests with this command:
+*JavaScript* development is in ES6-7. You can learn about it
+[here](https://babeljs.io/docs/learn-es6/). The frontend files are found in the
+`src` directory. The browser should auto-refresh as you save files (you may
+need the [live-reload](http://livereload.com/) browser plugin).
 
-  ```shell
-  karma start
-  ```
+*CSS* development is using SCSS. Style files should be modularised where
+necessary/sensible. I'm not following any particular style guide at the moment.
+I might migrate the code to something while the codebase is small.
 
-## Running The E2E Tests
-Integration tests are performed with [Protractor](http://angular.github.io/protractor/#/).
+[Concise](http://concisecss.com/documentation/) modules are imported in
+`frontend/scss/_framework.scss` as needed.
 
-1. Place your E2E-Tests into the folder ```test/e2e/src```
-2. Install the necessary webdriver
+## Usage
 
-  ```shell
-  gulp webdriver_update
-  ```
+TODO: Write usage instructions
 
-3. Configure the path to the webdriver by opening the file ```protractor.conf.js``` and adjusting the ```seleniumServerJar``` property. Typically its only needed to adjust the version number.
+## Testing
 
-4. Make sure your app runs and is accessible
+TODO: Write testing instructions
 
-  ```shell
-  gulp watch
-  ```
+## Contributing
 
-5. In another console run the E2E-Tests
+1. Fork it!
+2. Create your feature branch: `git checkout -b feature/my-new-feature`
+3. Commit your changes: `git commit -am 'Added some feature'`
+4. Push to the branch: `git push origin feature/my-new-feature`
+5. Submit a pull request :D
 
-  ```shell
-  gulp e2e
-  ```
+## History
+
+- **Version 0.1**: Basic sequential todo list. Tests and readme written.
+
+## Credits
+
+**Focus** was created by Alex Price ([@ricemast](https://twitter.com/ricemast))
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Focus
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

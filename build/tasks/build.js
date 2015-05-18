@@ -44,13 +44,6 @@ gulp.task('build-styles', function () {
     .pipe(reload({stream: true}));
 });
 
-// copies changed html files to the output directory
-gulp.task('build-html', function () {
-  return gulp.src(paths.html)
-    .pipe(changed(paths.output, {extension: '.html'}))
-    .pipe(gulp.dest(paths.output));
-});
-
 // this task calls the clean task (located
 // in ./clean.js), then runs the build-system
 // and build-html tasks in parallel

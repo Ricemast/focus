@@ -10,6 +10,7 @@ export class Todos {
         this.subheading = 'Click on a todo to focus';
         this.todos = {};
         this.numcompleted = 0;
+        this.newTodoText = '';
     }
 
     // Fetches and parses the todo JSON from the API
@@ -66,6 +67,29 @@ export class Todos {
             if (response.isSuccess) {
                 this.todos = todos;
                 this.numcompleted = 0;
+            }
+        }, (error) => {
+            console.log(error);
+            // TODO: Create error at top of page or something
+        });
+    }
+
+    // Add new todo
+    addTodo() {
+        let priority = this.todos.length + 1;
+
+        let todo = {
+            text: this.newTodoText,
+            priority: priority
+        };
+
+        http.post(
+            vars.todos_url,
+            JSON.stringify(todo)
+        ).then(response => {
+            if (response.isSuccess) {
+                this.todos.push(todo);
+                this.newTodoText = '';
             }
         }, (error) => {
             console.log(error);

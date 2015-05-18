@@ -2,14 +2,19 @@
 //  Todo styles
 //------------------------------------
 
+.todos {
+    background: $dark-blue;
+}
+
 .todo {
     background: $dark-blue;
     display: block;
     position: relative;
-    transition: all .1s ease-in-out;
+    transition: all .3s ease-in-out;
 
     &.-dragging {
-        transform: scale(1.01);
+        background: $red;
+        transform: scale(1.02);
     }
 
     &.-complete {

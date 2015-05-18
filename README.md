@@ -76,6 +76,7 @@ TODO: Write usage instructions
 ## History
 
 - **Version 0.1**: Basic sequential todo list. Tests and readme written.
+- **Version 0.2**: Conversion of frontend to use the Aurelia framework.
 
 ## Credits
 

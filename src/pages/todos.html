@@ -6,6 +6,10 @@
         </small>
     </h1>
 
+    <span class="numcompleted">
+        ${numcompleted} / ${todos.length} |
+    </span>
+
     <ul id="js-todos" class="todos">
         <li repeat.for="todo of todos"
             class="todo ${todo.complete ? '-complete' : ''}"
@@ -27,14 +31,18 @@
         </li>
     </ul>
 
-    <p class="todolistfooter">
-        <span class="js-numcompleted">
-            ${numcompleted}
-        </span> / ${todos.length} |
+    <div class="todolistfooter">
+        <form submit.trigger="addTodo()"
+              class="newtodoform">
+            <input type="text"
+                   value.bind="newTodoText"
+                   placeholder="Add new todo"
+                   class="newtodoinput">
+        </form>
         <a class="resetlink"
            href="#"
            click.trigger="resetTodos()">
             Reset
         </a>
-    </p>
+    </div>
 </template>

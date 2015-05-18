@@ -3,9 +3,55 @@
 //------------------------------------
 
 .todolistfooter {
+    padding: 1rem 0;
+}
+
+.todolistfooter > .newtodoform {
+    display: inline;
+}
+
+.todolistfooter > .newtodoform > .newtodoinput {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: $white;
+    outline: 0;
+    line-height: 1.5rem;
+    width: 50%;
+    transition: all .2s ease-in-out;
+    color: $dark-blue;
+
+    &:hover {
+        background: darken($white, 5%);
+    }
+
+    &:focus {
+        background: darken($white, 5%);
+        border-bottom-color: $dark-blue;
+    }
+}
+
+.todolistfooter > .numcompleted {
     float: right;
 }
 
 .todolistfooter > .resetlink {
+    padding: 0.6rem 1rem;
+    float: right;
     outline: 0;
+    background: $white;
+    border-bottom: 3px solid transparent;
+    opacity: 0.8;
+    transition: all .2s ease-in-out;
+    color: $dark-blue;
+
+    &:hover {
+        background: darken($white, 5%);
+        text-decoration: none;
+    }
+
+    &:active {
+        background: darken($white, 5%);
+        border-bottom-color: $dark-blue;
+    }
 }

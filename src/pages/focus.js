@@ -23,8 +23,11 @@ export class Focus {
             vars.todo_url(this.todo.id),
             {'complete': status}
         ).then(response => {
-            if (response.isSuccess)
+            if (response.isSuccess) {
                 this.todo.complete = status;
+                if (this.todo.complete)
+                    window.location.hash = `/focus/${this.todo.next}`;
+            }
         }, (error) => {
             console.log(error);
             // TODO: Create error at top of page or something

@@ -15,6 +15,7 @@ class TodoSerializer(serializers.HyperlinkedModelSerializer):
             'text',
             'priority',
             'complete',
+            'previous',
             'next',
         )
 
@@ -28,5 +29,6 @@ class TodoBulkSerializer(BulkSerializerMixin, serializers.ModelSerializer):
             'text',
             'priority',
             'complete',
+            'previous',
             'next',
         )

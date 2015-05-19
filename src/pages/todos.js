@@ -87,6 +87,7 @@ export class Todos {
             vars.todos_url,
             JSON.stringify(todo)
         ).then(response => {
+            todo = JSON.parse(response.response);
             if (response.isSuccess) {
                 this.todos.push(todo);
                 this.newTodoText = '';

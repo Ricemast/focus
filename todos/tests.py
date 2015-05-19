@@ -23,6 +23,27 @@ class TodoPropTests(TestCase):
 
         self.assertEqual(todo.next, todo2.id)
 
+    def test_next_prop_with_multiple_todos_all_complete(self):
+        """
+        The next property on Todo should not return an object when the
+        following todos are all complete
+        """
+        todo = Todo.objects.create(text='test')
+        Todo.objects.create(text='test2', complete=True)
+
+        self.assertIsNone(todo.next)
+
+    def test_next_prop_with_multiple_todos_some_complete(self):
+        """
+        The next property on Todo should return the object when the
+        next highest priority which is not complete.
+        """
+        todo = Todo.objects.create(text='test')
+        Todo.objects.create(text='test2', complete=True)
+        todo3 = Todo.objects.create(text='test3')
+
+        self.assertEqual(todo.next, todo3.id)
+
     def test_previous_prop_with_single_todo(self):
         """
         The previous property on Todo should return None if it is the only

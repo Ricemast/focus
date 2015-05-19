@@ -22,9 +22,13 @@ class Todo(models.Model):
 
     @property
     def next(self):
-        """Return the id of the next highest priority todo."""
+        """
+        Return the id of the next highest priority todo which is not
+        complete.
+        """
         t = Todo.objects.order_by('priority').filter(
-            priority__gt=self.priority
+            priority__gt=self.priority,
+            complete=False
         ).first()
         return t.id if t else None
 

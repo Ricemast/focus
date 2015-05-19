@@ -26,9 +26,13 @@
                 ${todo.text}
             </a>
 
-            <span class="checkbox"
+            <span class="toggleStatus"
                   click.trigger="$parent.toggleComplete(todo.id)">
                 <i class="fa ${todo.complete ? 'fa-check-square' : 'fa-square'}"></i>
+            </span>
+            <span class="delete"
+                  click.trigger="$parent.deleteTodo(todo.id)">
+                <i class="fa fa-trash-o"></i>
             </span>
         </li>
     </ul>

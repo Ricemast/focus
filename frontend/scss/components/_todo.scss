@@ -12,11 +12,6 @@
     position: relative;
     transition: all .3s ease-in-out;
 
-    &.-dragging {
-        background: $red;
-        transform: scale(1.02);
-    }
-
     &.-complete {
         background: $green;
 
@@ -27,6 +22,15 @@
 
     &.-complete > .priority {
         border-right: 1px solid $green-hover;
+    }
+
+    &.-dragging {
+        background: $red;
+        transform: scale(1.02);
+    }
+
+    &.-dragging > .priority {
+        border-right: 1px solid $red-hover;
     }
 
     &:hover {
@@ -49,7 +53,8 @@
     text-align: center;
 }
 
-.todo > .checkbox {
+.todo > .delete,
+.todo > .toggleStatus {
     display: block;
     padding: 0.5rem 0;
     width: 2.2rem;
@@ -62,5 +67,15 @@
 
     &:hover {
         background: rgba(255, 255, 255, 0.3);
+    }
+}
+
+.todo > .delete {
+    background: rgba(255, 255, 255, 0);
+    opacity: 0.5;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0);
+        opacity: 1;
     }
 }

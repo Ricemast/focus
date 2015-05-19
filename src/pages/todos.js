@@ -28,11 +28,16 @@ export class Todos {
         });
     }
 
-    // Toggles the status of a todo object
-    toggleComplete(id) {
-        let todo = this.todos.filter(function(todo) {
+    // Get the todo object for a given ID
+    getTodo(id) {
+        return this.todos.filter(function(todo) {
             return todo.id == id;
         })[0];
+    }
+
+    // Toggles the status of a todo object
+    toggleComplete(id) {
+        let todo = this.getTodo(id);
 
         if (!todo) {
             console.log('Error, no todo with that ID exists');
@@ -98,21 +103,36 @@ export class Todos {
         });
     }
 
+    // Delete todo
+    deleteTodo(id) {
+        let todo = this.getTodo(id);
+
+        http.delete(
+            vars.todo_url(id)
+        ).then(response => {
+                if (response.isSuccess) {
+                this.todos = $.grep(this.todos, function(t, i) {
+                    return t.id === todo.id;
+                }, true).sort(prioritise);
+            }
+        }, (error) => {
+            console.log(error);
+            // TODO: Create error at top of page or something
+        });
+    }
+
     // Init the Sortable JS once the page has loaded
     attached() {
         let el = document.getElementById('js-todos');
         let todos = this.todos;
+        let t = this;
 
         new Sortable(el, {
             ghostClass: '-dragging',
             onEnd: function () {
                 $('.todo').each(function(i) {
                     let id = $(this).attr('id').split('todo')[1];
-
-                    let todo = todos.filter(function(todo) {
-                        return todo.id == id;
-                    })[0];
-
+                    let todo = t.getTodo(id);
                     todo.priority = i + 1;
                 });
 

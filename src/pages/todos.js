@@ -46,7 +46,10 @@ export class Todos {
 
         let status = todo.complete ? false : true;
 
-        http.patch(vars.todo_url(id), {'complete': status}).then(response => {
+        http.patch(
+            vars.todo_url(id),
+            {'complete': status}
+        ).then(response => {
             if (response.isSuccess) {
                 todo.complete = status;
                 this.numcompleted += status ? 1 : -1;
@@ -107,17 +110,36 @@ export class Todos {
     deleteTodo(id) {
         let todo = this.getTodo(id);
 
-        http.delete(
+        let del = http.delete(
             vars.todo_url(id)
         ).then(response => {
-                if (response.isSuccess) {
-                this.todos = $.grep(this.todos, function(t, i) {
-                    return t.id === todo.id;
-                }, true).sort(prioritise);
+            if (response.isSuccess) {
+                let i = this.todos.indexOf(todo);
+                if(i != -1) {
+                    this.todos.splice(i, 1);
+                    this.checkOrder(todo.id);
+                }
             }
         }, (error) => {
             console.log(error);
             // TODO: Create error at top of page or something
+        });
+    }
+
+    // Re-order each of the todos
+    // @int exludeId is the ID of a todo object to ignore in the check,
+    // this is to combat the difference in DOM and data.
+    checkOrder(excludeId) {
+        let t = this;
+        let priority = 1;
+
+        $('.todo').each(function() {
+            let id = $(this).attr('id').split('todo')[1];
+            if (id != excludeId) {
+                let todo = t.getTodo(parseInt(id));
+                todo.priority = priority;
+                priority += 1;
+            }
         });
     }
 
@@ -130,11 +152,7 @@ export class Todos {
         new Sortable(el, {
             ghostClass: '-dragging',
             onEnd: function () {
-                $('.todo').each(function(i) {
-                    let id = $(this).attr('id').split('todo')[1];
-                    let todo = t.getTodo(id);
-                    todo.priority = i + 1;
-                });
+                t.checkOrder();
 
                 http.patch(
                     vars.todos_url,

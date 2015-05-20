@@ -10,7 +10,7 @@
     background: $dark-blue;
     display: block;
     position: relative;
-    transition: all .3s ease-in-out;
+    transition: background .3s ease-in-out;
 
     &.-complete {
         background: $green;
@@ -25,8 +25,8 @@
     }
 
     &.-dragging {
-        background: $red;
-        transform: scale(1.02);
+        opacity: 0.3;
+        background-color: $red-hover;
     }
 
     &.-dragging > .priority {

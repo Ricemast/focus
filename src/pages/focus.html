@@ -7,24 +7,25 @@
            class="${todo.complete ? ' -complete' : ''}">
             <i class="fa fa-check"></i>
         </a>
+        <span>Up next: ${nexttodo.text}</span>
     </div>
 
     <div class="focusfooter">
         <a class="homelink"
-           href="/#/">
+           href="/#">
             <i class="fa fa-home"></i>
         </a>
 
         <template if.bind="todo.next">
             <a class="nextlink"
-               href="/#/focus/${todo.next}">
+               href="/#focus/${todo.next}">
                 ${todo.complete ? 'Next' : 'Skip'}
             </a>
         </template>
 
         <template if.bind="todo.previous">
             <a class="nextlink"
-               href="/#/focus/${todo.previous}">
+               href="/#focus/${todo.previous}">
                 Previous
             </a>
         </template>

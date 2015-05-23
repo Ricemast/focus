@@ -3,47 +3,62 @@ import {http}       from '../utils/http';
 import {prioritise} from '../utils/prioritise';
 import {vars}       from '../utils/variables';
 import $            from 'jquery/jquery.min';
+import _            from 'lodash';
 import Sortable     from 'sortable/Sortable.min';
 
 export class Todos {
     constructor() {
         this.subheading = 'Click on a todo to focus';
         this.todos = {};
-        this.numcompleted = 0;
         this.newTodoText = '';
     }
 
     // Fetches and parses the todo JSON from the API
     fetchTodos() {
-        return http.get(vars.todos_url).then(response => {
-            this.todos = JSON.parse(response.response).sort(prioritise);
-
-            let count = 0;
-            this.todos.forEach(todo => {
-                count += todo.complete ? 1 : 0;
-            });
-            this.numcompleted = count;
+        return http.get(
+            vars.todos_url
+        ).then(response => {
+            this.parseResponse(response);
         }, () => {
             alert('There was an error fetching the todos');
         });
     }
 
+    // Parse the JSON response
+    parseResponse(response) {
+        this.todos = JSON.parse(response.response).sort(prioritise);
+        this.numcompleted = _.where(this.todos, {'complete': true}).length;
+    }
+
     // Get the todo object for a given ID
     getTodo(id) {
-        return this.todos.filter(function(todo) {
-            return todo.id == id;
-        })[0];
+        return _.find(this.todos, 'id', id);
     }
+
+    // Edit the text for a todo
+    edit(id, text) {
+        let todo = this.getTodo(parseInt(id));
+
+        http.patch(
+            vars.todo_url(id),
+            {'text': text}
+        ).then(response => {
+            if (response.isSuccess) {
+                $('.todo > .edit').show();
+                $('.todo > .focuslink').show();
+                $('.todo > .todotextinput').hide();
+                todo.text = text;
+            }
+        }, (error) => {
+            console.log(error);
+            // TODO: Create error at top of page or something
+        });
+    }
+
 
     // Toggles the status of a todo object
     toggleComplete(id) {
         let todo = this.getTodo(id);
-
-        if (!todo) {
-            console.log('Error, no todo with that ID exists');
-            return;
-        }
-
         let status = todo.complete ? false : true;
 
         http.patch(
@@ -51,8 +66,7 @@ export class Todos {
             {'complete': status}
         ).then(response => {
             if (response.isSuccess) {
-                todo.complete = status;
-                this.numcompleted += status ? 1 : -1;
+                this.parseResponse(response);
             }
         }, (error) => {
             console.log(error);
@@ -72,10 +86,8 @@ export class Todos {
             vars.todos_url,
             JSON.stringify(todos)
         ).then(response => {
-            if (response.isSuccess) {
-                this.todos = todos;
-                this.numcompleted = 0;
-            }
+            if (response.isSuccess)
+                this.parseResponse(response);
         }, (error) => {
             console.log(error);
             // TODO: Create error at top of page or something
@@ -110,62 +122,88 @@ export class Todos {
     deleteTodo(id) {
         let todo = this.getTodo(id);
 
-        let del = http.delete(
+        http.delete(
             vars.todo_url(id)
         ).then(response => {
-            if (response.isSuccess) {
-                let i = this.todos.indexOf(todo);
-                if(i != -1) {
-                    this.todos.splice(i, 1);
-                    this.checkOrder(todo.id);
-                }
-            }
+            if (response.isSuccess)
+                this.parseResponse(response);
         }, (error) => {
             console.log(error);
             // TODO: Create error at top of page or something
         });
     }
 
-    // Re-order each of the todos
-    // @int exludeId is the ID of a todo object to ignore in the check,
-    // this is to combat the difference in DOM and data.
-    checkOrder(excludeId) {
-        let t = this;
-        let priority = 1;
-
-        $('.todo').each(function() {
-            let id = $(this).attr('id').split('todo')[1];
-            if (id != excludeId) {
-                let todo = t.getTodo(parseInt(id));
-                todo.priority = priority;
-                priority += 1;
-            }
-        });
-    }
-
     // Init the Sortable JS once the page has loaded
     attached() {
         let el = document.getElementById('js-todos');
-        let todos = this.todos;
-        let t = this;
 
         new Sortable(el, {
             ghostClass: '-dragging',
-            onEnd: function () {
-                t.checkOrder();
+            handle: '.priority',
+            onUpdate: (ev) => {
+                if (ev.oldIndex === ev.newIndex)
+                    return;
+
+                let todos = [];
+
+                _.forEach($('.todo'), (todo, i) => {
+                    todos.push(
+                        {
+                            id: parseInt(todo.id.split('todo')[1]),
+                            priority: i + 1
+                        }
+                    );
+                });
 
                 http.patch(
                     vars.todos_url,
                     JSON.stringify(todos)
                 ).then(response => {
                     if (response.isSuccess)
-                        this.todos = todos;
+                        this.parseResponse(response);
                 }, (error) => {
                     console.log(error);
                     // TODO: Create error at top of page or something
                 });
             },
         });
+
+        // Hide the text and show the input box when editing
+        $(window.document).on('click', '.edit', function() {
+            $(this).siblings('.focuslink').hide();
+            $(this).siblings('.todotextinput').show().focus();
+            $(this).hide();
+            return false;
+        });
+
+        // Fix for cursor placement when setting focus
+        $(window.document).on('focus', '.todotextinput', function() {
+              this.selectionStart = this.selectionEnd = this.value.length;
+        });
+
+        $(window.document).on('keyup', '.todotextinput', (e) => {
+            let $this = $(e.target);
+
+            // return
+            if (e.keyCode == 13) {
+                let id = $this.parent().attr('id').split('todo')[1];
+                this.edit(id, $this.val());
+            }
+
+            // esc
+            if (e.keyCode == 27) {
+                $this.siblings('.focuslink').show();
+                $this.siblings('.edit').show();
+                $this.hide();
+            }
+        });
+
+        $(window.document).on('blur', '.todotextinput', function() {
+            $(this).siblings('.focuslink').show();
+            $(this).siblings('.edit').show();
+            $(this).hide();
+        });
+
     }
 
     // Wait for the todos to be fetched before loading the view.

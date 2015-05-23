@@ -26,14 +26,28 @@
                 ${todo.text}
             </a>
 
-            <span class="toggleStatus"
-                  click.trigger="$parent.toggleComplete(todo.id)">
+            <input type="text"
+                   value="${todo.text}"
+                   placeholder="Update todo text"
+                   class="todotextinput">
+
+            <a class="edit"
+               href="#">
+                <i class="fa fa-pencil"></i>
+            </a>
+
+            <a class="toggleStatus"
+               href="#"
+               click.trigger="$parent.toggleComplete(todo.id)">
                 <i class="fa ${todo.complete ? 'fa-check-square' : 'fa-square'}"></i>
-            </span>
-            <span class="delete"
-                  click.trigger="$parent.deleteTodo(todo.id)">
+            </a>
+
+
+            <a class="delete"
+               href="#"
+               click.trigger="$parent.deleteTodo(todo.id)">
                 <i class="fa fa-trash-o"></i>
-            </span>
+            </a>
         </li>
     </ul>
 

@@ -38,11 +38,6 @@
     }
 }
 
-.todo > .focuslink {
-    color: $white;
-    outline: 0;
-}
-
 .todo > .priority {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -51,6 +46,34 @@
     border-right: 1px solid $dark-blue-hover;
     width: 3rem;
     text-align: center;
+    cursor: move;
+}
+
+.todo > .edit,
+.todo > .focuslink {
+    color: $white;
+    outline: 0;
+}
+
+.todo > .todotextinput {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: 0;
+    color: white;
+    display: none;
+}
+
+.todo > .edit {
+    opacity: 0.3;
+    padding: 0 0.3rem;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+        text-decoration: none;
+    }
 }
 
 .todo > .delete,

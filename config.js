@@ -33,6 +33,7 @@ System.config({
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
     "sortable": "github:rubaXa/sortable@1.2.0",
     "jquery": "github:components/jquery@2.1.3",
+    "lodash": "npm:lodash@3.8.0",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
     "github:aurelia/animator-css@0.2.0": {
       "aurelia-templating": "github:aurelia/templating@0.11.2"

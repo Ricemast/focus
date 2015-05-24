@@ -1,13 +1,17 @@
 //------------------------------------
-//  Focusfooter styles
+//  Focusheader styles
 //------------------------------------
 
-.focusfooter {
+.focusheader {
     background: $white-hover;
     padding: 0.4rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 
-.focusfooter > a {
+.focusheader > a {
     padding: 0 1rem;
     color: $white;
     outline: 0;
@@ -18,6 +22,6 @@
     }
 }
 
-.focusfooter > .nextlink {
+.focusheader .nextlink {
     float: right;
 }

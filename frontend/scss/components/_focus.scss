@@ -3,16 +3,23 @@
 //------------------------------------
 
 .focus {
+    margin-top: 3rem;
     color: $grey;
-    font-size: 4rem;
-    padding: 5rem 0;
+    padding: 2rem 0;
     text-align: center;
 }
 
-.focus > a {
+.focus > .text {
+    color: $dark-blue;
+    opacity: 0.8;
+    @extend .giga;
+}
+
+.focus > .check {
     opacity: 0.2;
     color: $grey;
     outline: 0;
+    @extend .giga;
 
     &.-complete {
         opacity: 0.6;
@@ -24,8 +31,9 @@
     }
 }
 
-.focus > span {
+.focus > .upnext {
     display: block;
     font-size: 1rem;
     opacity: 0.4;
+    margin-top: 1rem;
 }

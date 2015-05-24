@@ -122,15 +122,19 @@ export class Todos {
     deleteTodo(id) {
         let todo = this.getTodo(id);
 
-        http.delete(
-            vars.todo_url(id)
-        ).then(response => {
-            if (response.isSuccess)
-                this.parseResponse(response);
-        }, (error) => {
-            console.log(error);
-            // TODO: Create error at top of page or something
-        });
+        let del = confirm(`Delete todo: "${todo.text}"?`);
+
+        if (del) {
+            http.delete(
+                vars.todo_url(id)
+            ).then(response => {
+                if (response.isSuccess)
+                    this.parseResponse(response);
+            }, (error) => {
+                console.log(error);
+                // TODO: Create error at top of page or something
+            });
+        }
     }
 
     // Init the Sortable JS once the page has loaded

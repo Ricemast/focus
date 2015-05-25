@@ -4,10 +4,15 @@
 
 .todolistfooter {
     padding: 1rem 0;
+    @include clearfix();
 }
 
 .todolistfooter > .newtodoform {
     display: inline;
+
+    @include breakpoint(extra-small, max) {
+        display: block;
+    }
 }
 
 .todolistfooter > .newtodoform > .newtodoinput {
@@ -29,10 +34,11 @@
         background: darken($white, 5%);
         border-bottom-color: $dark-blue;
     }
-}
 
-.todolistfooter > .numcompleted {
-    float: right;
+    @include breakpoint(extra-small, max) {
+        width: 100%;
+        margin-bottom: 0.4rem;
+    }
 }
 
 .todolistfooter > .resetlink {
@@ -53,5 +59,12 @@
     &:active {
         background: darken($white, 5%);
         border-bottom-color: $dark-blue;
+    }
+
+    @include breakpoint(extra-small, max) {
+        float: none;
+        width: 100%;
+        display: block;
+        text-align: center;
     }
 }

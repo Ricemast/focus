@@ -6,6 +6,10 @@ html, body {
     background: $white;
 }
 
+.container {
+    min-width: 300px;
+}
+
 a,
 a:hover,
 a:visited {

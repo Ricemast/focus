@@ -55,16 +55,6 @@
     outline: 0;
 }
 
-.todo > .todotextinput {
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    outline: none;
-    border: 0;
-    color: white;
-    display: none;
-}
-
 .todo > .edit {
     opacity: 0.3;
     padding: 0 0.3rem;
@@ -74,6 +64,32 @@
         opacity: 1;
         text-decoration: none;
     }
+
+    @include breakpoint(extra-small, max) {
+        display: none;
+    }
+}
+
+.todo > .focuslink {
+    vertical-align: middle;
+
+    @include breakpoint(extra-small, max) {
+        display: inline-block;
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.todo > .todotextinput {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: 0;
+    color: white;
+    display: none;
 }
 
 .todo > .delete,

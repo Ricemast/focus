@@ -15,27 +15,8 @@
     }
 }
 
-.todolistfooter > .newtodoform > .newtodoinput {
-    padding: 0.6rem 1rem;
-    border: none;
-    border-bottom: 0.2rem solid $white-hover;
-    background: darken($white, 3%);
-    outline: 0;
-    line-height: 1.5rem;
+.todolistfooter > .newtodoform > .input {
     width: 50%;
-    transition: all .2s ease-in-out;
-    color: $dark-blue;
-    // Stop iOS auto border raduis
-    -webkit-appearance: none;
-    -webkit-border-radius: 0;
-
-    &:hover {
-        background: darken($white, 5%);
-    }
-
-    &:focus {
-        border-bottom-color: $red;
-    }
 
     @include breakpoint(extra-small, max) {
         width: 100%;
@@ -43,30 +24,8 @@
     }
 }
 
-.todolistfooter > .resetlink {
-    padding: 0.4rem 1rem;
+.todolistfooter > .button {
     float: right;
-    outline: 0;
-    background: $teal;
-    border-bottom: 0.2rem solid $teal-hover;
-    opacity: 0.8;
-    transition: all .2s ease-in-out;
-    color: $white;
-    // Stop iOS auto border raduis
-    -webkit-appearance: none;
-    -webkit-border-radius: 0;
-
-    &:hover {
-        background: $teal-hover;
-        text-decoration: none;
-        border-bottom-color: darken($teal-hover, 5%);
-    }
-
-    &:focus,
-    &:active {
-        background: $teal-hover;
-        border-bottom-color: darken($teal-hover, 10%);
-    }
 
     @include breakpoint(extra-small, max) {
         float: none;

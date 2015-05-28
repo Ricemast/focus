@@ -10,8 +10,7 @@ class RouterStub {
 }
 
 describe('the App module', () => {
-  var sut
-    , mockedRouter;
+  var sut, mockedRouter;
 
   beforeEach(() => {
     mockedRouter = new RouterStub();
@@ -24,18 +23,15 @@ describe('the App module', () => {
   });
 
   it('configures the router title', () => {
-    expect(sut.router.title).toEqual('Aurelia');
+    expect(sut.router.title).toEqual('Focus');
   });
 
-  it('should have a welcome route', () => {
-    expect(sut.router.routes).toContain({ route: ['','welcome'],  moduleId: './welcome', nav: true, title:'Welcome' });
+  it('should have a home route', () => {
+    expect(sut.router.routes).toContain({ route: '',  moduleId: './pages/todos', title: 'Home' });
   });
 
-  it('should have a flickr route', () => {
-     expect(sut.router.routes).toContain({ route: 'flickr', moduleId: './flickr', nav: true });
+  it('should have a focus route', () => {
+     expect(sut.router.routes).toContain({ route: 'focus/:id', moduleId: './pages/focus', title: 'Focus' });
   });
 
-  it('should have a child router route', () => {
-    expect(sut.router.routes).toContain({ route: 'child-router', moduleId: './child-router', nav: true, title:'Child Router' });
-  });
 });

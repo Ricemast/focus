@@ -57,7 +57,33 @@ I might migrate the code to something while the codebase is small.
 
 ## Usage
 
-TODO: Write usage instructions
+**Focus** is currently a morning routine builder. It helps you complete your
+morning tasks without the worry of forgetting something.
+
+Tasks have no time restraints and are to be completed everyday no matter what
+time you wake.
+
+Examples of **Focus** todos:
+
+1. Meditate
+2. Complete journal
+3. Clean teeth
+4. Strech
+5. ...
+
+This list should contain tasks which *need* to be completed **everyday**.
+
+When you wake you should reset the todos and click on the first task. This
+will take you to *focus mode*. *Focus mode* is a distraction free screen which
+only shows you the text of the current task. Go now and complete this task.
+**Focus** on completing this todo. When it is complete, click on the tick and
+move on to the next one.
+
+You can **add** todos to the bottom of the list using the form at the bottom of
+the page. You can **reorder** todos by grabbing the todo number and dragging.
+You can **edit** the text of a todo by clicking on the pencil icon for that
+todo. You can **delete** a todo by clicking on the bin icon. There is also a
+*quick complete* button for finishing a task while in *list mode*
 
 ## Testing
 

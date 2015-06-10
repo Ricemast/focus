@@ -9,14 +9,22 @@
 }
 
 @keyframes rotate {
-    0%       {transform: rotate(0deg);}
-    50%     {transform: rotate(180deg);}
-    100%     {transform: rotate(360deg);}
+    0%   { transform: rotate(0deg);   }
+    50%  { transform: rotate(180deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@-webkit-keyframes rotate {
+    0%   { -webkit-transform: rotate(0deg);   }
+    50%  { -webkit-transform: rotate(180deg); }
+    100% { -webkit-transform: rotate(360deg); }
 }
 
 .loadinglogo > .icon {
     transform-origin: 50% 50%;
+    -webkit-transform-origin: 50% 50%;
     animation: rotate 2s infinite;
+    -webkit-animation: rotate 2s infinite;
 }
 
 svg:not(:root) {

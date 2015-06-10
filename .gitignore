@@ -5,6 +5,7 @@ static
 .idea
 .DS_STORE
 /dist
+/design
 .editorconfig
 .jshintrc
 .npmignore
